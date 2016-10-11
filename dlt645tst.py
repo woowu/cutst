@@ -7,7 +7,7 @@ import serial
 import re
 import time
 
-dlt645_97_ids = (
+dlt645_07_ids = (
     0x00010000,
     0x00010100,
     0x00010200,
@@ -39,35 +39,32 @@ dlt645_97_ids = (
     0x03300201,
     0x03300200,
     0x02010100,
-    0x02010200,
-    0x02010300,
-    0x02020100,
-    0x02020200,
-    0x02020300,
-    0x02030000,
-    0x02030100,
-    0x02030200,
-    0x02030300,
-    0x02040000,
-    0x02040100,
-    0x02040200,
-    0x02040300,
-    0x02060000,
-    0x02060100,
-    0x02060200,
-    0x02060300,
-    0x04000101,
-    0x04000102,
-    0x04000501,
-    0x04000409,
-    0x0400040A,
-    0x04010001,
+    #0x02010200,
+    #0x02010300,
+    #0x02020100,
+    #0x02020200,
+    #0x02020300,
+    #0x02030000,
+    #0x02030100,
+    #0x02030200,
+    #0x02030300,
+    #0x02040000,
+    #0x02040100,
+    #0x02040200,
+    #0x02040300,
+    #0x02060000,
+    #0x02060100,
+    #0x02060200,
+    #0x02060300,
+    #0x04000101,
+    #0x04000102,
+    #0x04000501,
+    #0x04000409,
+    #0x0400040A,
+    #0x04010001,
     );
 
 seri = None
-addr = None
-err_wait = 3.0
-idle_wait = 0.02
 
 def open_seri(dev, baud):
     return serial.Serial(dev, baud, bytesize=8, parity='E')
@@ -103,15 +100,23 @@ def create_read_req(id):
 
 def recv_frame():
     frame = bytearray()
-    status = 0
-    len = 0
+    ctrl = 0
+    data_len = 0
+    resp_timeout = 3
+    inter_char_timeout = 0.05
 
     # quick and dirty checking
     seri.timeout = 0
     s = 'opening_tag'
     while True:
-        readable, _, _, = select([seri], [], [], 3)
-        if not readable: return (None, status)
+        if len(frame):
+            timeout = inter_char_timeout
+        else:
+            timeout = resp_timeout;
+        readable, _, _, = select([seri], [], [], timeout)
+        if not readable:
+            print 'timeout'
+            return (frame, ctrl)
 
         c = seri.read(1)
         frame.append(c)
@@ -124,27 +129,27 @@ def recv_frame():
             continue
         if s == 'second_tag':
             if c == 0x68:
-                s = 'status'
+                s = 'ctrl'
             continue
-        if s == 'status':
-            status = c
+        if s == 'ctrl':
+            ctrl = c
             s = 'length'
             continue
         if s == 'length':
-            len = c
+            data_len = c
             s = 'data'
             continue
         if s == 'data':
-            len -= 1
-            if not len:
+            data_len -= 1
+            if not data_len:
                 s = 'chksum'
             continue
         if s == 'chksum':
-            s = 'end_tag'
+            s = 'closing_tag'
             continue
-        if s == 'end_tag':
+        if s == 'closing_tag':
             break
-    return (frame, status)
+    return (frame, ctrl)
 
 def read_single_id(id):
     req = create_read_req(id)
@@ -155,19 +160,21 @@ def read_single_id(id):
     return recv_frame()
 
 def read_from_table():
-    for id in dlt645_97_ids:
+    for id in dlt645_07_ids:
         for retries in range(3):
-            frame, status = read_single_id(id)
-            if frame and len(frame):
+            frame, ctrl = read_single_id(id)
+            if len(frame):
                 print timestamp() + \
                         ' < ' + ' '.join(x.encode('hex') for x in bytes(frame))
-            if frame and status == 0x91: 
+            if ctrl == 0x91: 
                 time.sleep(idle_wait)
                 break
-            time.sleep(err_wait)
+            if len(frame):
+                print 'not a resp'
+                time.sleep(err_wait)
 
 if __name__== '__main__':
-    argp = ArgumentParser(prog='seriping.py')
+    argp = ArgumentParser(prog='dlt645tst.py')
     argp.add_argument('device', help='serial device name')
     argp.add_argument('addr', help='server addr in decimal string')
     argp.add_argument('-b', '--baud'
@@ -186,6 +193,7 @@ if __name__== '__main__':
     args = argp.parse_args()
     addr = args.addr
     err_wait = args.err_wait
+    idle_wait = args.idle_wait
     seri = open_seri(args.device, args.baud)
 
     read_from_table()
