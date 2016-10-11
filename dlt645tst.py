@@ -39,30 +39,30 @@ dlt645_07_ids = (
     0x03300201,
     0x03300200,
     0x02010100,
-    #0x02010200,
-    #0x02010300,
-    #0x02020100,
-    #0x02020200,
-    #0x02020300,
-    #0x02030000,
-    #0x02030100,
-    #0x02030200,
-    #0x02030300,
-    #0x02040000,
-    #0x02040100,
-    #0x02040200,
-    #0x02040300,
-    #0x02060000,
-    #0x02060100,
-    #0x02060200,
-    #0x02060300,
-    #0x04000101,
-    #0x04000102,
-    #0x04000501,
-    #0x04000409,
-    #0x0400040A,
-    #0x04010001,
-    );
+    0x02010200,
+    0x02010300,
+    0x02020100,
+    0x02020200,
+    0x02020300,
+    0x02030000,
+    0x02030100,
+    0x02030200,
+    0x02030300,
+    0x02040000,
+    0x02040100,
+    0x02040200,
+    0x02040300,
+    0x02060000,
+    0x02060100,
+    0x02060200,
+    0x02060300,
+    0x04000101,
+    0x04000102,
+    0x04000501,
+    0x04000409,
+    0x0400040A,
+    0x04010001,
+    )
 
 seri = None
 
@@ -84,23 +84,39 @@ def enc_addr(addr):
 def mod256_sum(barry):
     return reduce(lambda x, y: x + y, barry) % 256
 
+def is_normal_resp(ctrl):
+    return ctrl & 0xc0 == 0x80
+
+def has_next_data(ctrl):
+    return ctrl & 0xe0 == 0xa0 
+
 def timestamp():
     msecs = str(int(time.time() * 1000))
     return msecs[0:-3] + '.' + msecs[-3:]
 
-def create_read_req(id):
+def create_read_req(id, seqno):
     frame = bytearray([0x68])
     frame += enc_addr(addr)
-    frame += bytearray([0x68, 0x11, 0x04])
+    if seqno == 0:
+        frame += bytearray([0x68, 0x11, 0x04])
+    else:
+        frame += bytearray([0x68, 0x12, 0x05])
     for i in range(4):
-        frame.append(id % 256 + 0x33)
+        frame.append((id % 256 + 0x33) % 256)
         id /= 256
+
+    # Keli considers seqno as not part of data
+    if seqno > 0:
+        frame.append(seqno % 256)
+
     frame.append(mod256_sum(frame))
     return bytearray([0xfe, 0xfe]) + frame + bytearray([0x16])
 
 def recv_frame():
     frame = bytearray()
     ctrl = 0
+    seqno = 0
+
     data_len = 0
     resp_timeout = 3
     inter_char_timeout = 0.05
@@ -112,16 +128,14 @@ def recv_frame():
         if len(frame):
             timeout = inter_char_timeout
         else:
-            timeout = resp_timeout;
+            timeout = resp_timeout
         readable, _, _, = select([seri], [], [], timeout)
         if not readable:
-            print 'timeout'
-            return (frame, ctrl)
+            return (frame, ctrl, 0)
 
         c = seri.read(1)
         frame.append(c)
         c = ord(c)
-        #print s, hex(c)
 
         if s == 'opening_tag':
             if c == 0x68:
@@ -141,18 +155,24 @@ def recv_frame():
             continue
         if s == 'data':
             data_len -= 1
-            if not data_len:
+            if data_len > 0: continue
+            if has_next_data(ctrl):
+                s = 'seqno'
+            else:
                 s = 'chksum'
+            continue
+        if s == 'seqno':
+            seqno = c
             continue
         if s == 'chksum':
             s = 'closing_tag'
             continue
         if s == 'closing_tag':
             break
-    return (frame, ctrl)
+    return (frame, ctrl, seqno)
 
-def read_single_id(id):
-    req = create_read_req(id)
+def read_single_id(id, seqno):
+    req = create_read_req(id, seqno)
     print timestamp() + \
             ' > ' + ' '.join(x.encode('hex') for x in bytes(req))
     seri.write(bytes(req))
@@ -160,18 +180,29 @@ def read_single_id(id):
     return recv_frame()
 
 def read_from_table():
-    for id in dlt645_07_ids:
+    index = 0
+    seqno = 0
+
+    while index < len(dlt645_07_ids):
+        id = dlt645_07_ids[index]
         for retries in range(3):
-            frame, ctrl = read_single_id(id)
+            frame, ctrl, _ = read_single_id(id, seqno)
             if len(frame):
                 print timestamp() + \
                         ' < ' + ' '.join(x.encode('hex') for x in bytes(frame))
-            if ctrl == 0x91: 
+            else:
+                continue
+
+            if is_normal_resp(ctrl): 
                 time.sleep(idle_wait)
                 break
-            if len(frame):
-                print 'not a resp'
+            else:
                 time.sleep(err_wait)
+        if len(frame) and has_next_data(ctrl) and seqno < 255:
+            seqno += 1
+        else:
+            seqno = 0
+            index += 1
 
 if __name__== '__main__':
     argp = ArgumentParser(prog='dlt645tst.py')
