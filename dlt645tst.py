@@ -331,7 +331,7 @@ def read_from_table():
 
     while index < len(id_table):
         id = id_table[index]
-        for retries in range(3):
+        for r in range(retries):
             frame, ctrl, _ = read_single_id(id, seqno)
             if len(frame):
                 print_packet(bytes(frame), ' ')
@@ -380,6 +380,10 @@ if __name__== '__main__':
             , type=float
             , default=0.05
             , help='inter char timeout (n.n secs)')
+    argp.add_argument('--retries'
+            , type=int
+            , default=3
+            , help='number of retries in error')
     argp.add_argument('-d', '--leading-chars'
             , type=int
             , default=2
@@ -406,6 +410,7 @@ if __name__== '__main__':
     idle_wait = args.idle_wait
     resp_timeout = args.resp_timeout
     inter_char_timeout = args.inter_char_timeout
+    retries = args.retries
     leading_chars_nr = args.leading_chars
     no_read_subsequent = args.no_read_subsequent
 
