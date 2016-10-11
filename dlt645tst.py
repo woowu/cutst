@@ -200,16 +200,11 @@ def open_seri(dev, baud):
     return serial.Serial(dev, baud, bytesize=8, parity='E', timeout=0)
 
 def enc_addr(addr):
-    i = 0
-    result = bytearray()
-    for d in addr.rjust(12, '0'):
-        if i / 2 * 2 == i:
-            result.append(int(d) * 16)
-        else:
-            result[-1] = result[-1] + int(d)
-        i += 1
-    result.reverse()
-    return result
+    norm = addr.rjust(12, '0')
+    grouped = [int(norm[i:i + 2]) for i in range(0, len(norm), 2)]
+    bcd = bytearray([e / 10 * 16 + e % 10 for e in grouped])
+    bcd.reverse()
+    return bcd
 
 def mod256_sum(barry):
     return reduce(lambda x, y: x + y, barry) % 256
