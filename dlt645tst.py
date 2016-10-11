@@ -5,7 +5,139 @@ from argparse import ArgumentParser
 from select import select
 import sys, time, re, serial, binascii
 
-dlt645_07_ids = (
+weisheng_07_ids = (
+    0x04000501,
+    0x00010000,
+    0x00010100,
+    0x00010200,
+    0x00010300,
+    0x00010400,
+    0x00020000,
+    0x00020100,
+    0x00020200,
+    0x00020300,
+    0x00020400,
+    0x00030000,
+    0x00030100,
+    0x00030200,
+    0x00030300,
+    0x00030400,
+    0x00040000,
+    0x00040100,
+    0x00040200,
+    0x00040300,
+    0x00040400,
+    0x00050000,
+    0x00050100,
+    0x00050200,
+    0x00050300,
+    0x00050400,
+    0x00080000,
+    0x00080100,
+    0x00080200,
+    0x00080300,
+    0x00080400,
+    0x00060000,
+    0x00060100,
+    0x00060200,
+    0x00060300,
+    0x00060400,
+    0x00070000,
+    0x00070100,
+    0x00070200,
+    0x00070300,
+    0x00070400,
+    0x0000FF00,
+    0x01010000,
+    0x01010100,
+    0x01010200,
+    0x01010300,
+    0x01010400,
+    0x01020000,
+    0x01020100,
+    0x01020200,
+    0x01020300,
+    0x01020400,
+    0x01010000,
+    0x01010100,
+    0x01010200,
+    0x01010300,
+    0x01010400,
+    0x01020000,
+    0x01020100,
+    0x01020200,
+    0x01020300,
+    0x01020400,
+    0x03300001,
+    0x03300201,
+    0x03300000,
+    0x03300200,
+    0x0280000A,
+    0x13010001,
+    0x13020001,
+    0x13030001,
+    0x13010002,
+    0x13020002,
+    0x13030002,
+    0x13010101,
+    0x13020101,
+    0x13030101,
+    0x13012501,
+    0x13022501,
+    0x13032501,
+    0x04000501,
+    0x040005FF,
+    0x04000801,
+    0x02800001,
+    0x10010002,
+    0x10020002,
+    0x10030002,
+    0x02010100,
+    0x02010200,
+    0x02010300,
+    0x02020100,
+    0x02020200,
+    0x02020300,
+    0x02030000,
+    0x02030100,
+    0x02030200,
+    0x02030300,
+    0x02040000,
+    0x02040100,
+    0x02040200,
+    0x02040300,
+    0x02060000,
+    0x02060100,
+    0x02060200,
+    0x02060300,
+    0x04000101,
+    0x04000102,
+    0x04000409,
+    0x0400040A,
+    0x04010000,
+    0x04010001,
+    0x04010002,
+    0x04010003,
+    0x04010004,
+    0x04010005,
+    0x04010006,
+    0x04010007,
+    0x04010008,
+    0x0001FF01,
+    0x0002FF01,
+    0x0003FF01,
+    0x0004FF01,
+    0x0005FF01,
+    0x0008FF01,
+    0x0006FF01,
+    0x0007FF01,
+    0x0101FF01,
+    0x0102FF01,
+    0x0101FF01,
+    0x0102FF01,
+    )
+
+keli_07_ids = (
     0x00010000,
     0x00010100,
     0x00010200,
@@ -167,8 +299,6 @@ def recv_frame():
         return None
 
     state = {'frame': bytearray(), 'ctrl': 0, 'seqno': 0}
-    resp_timeout = 3
-    inter_char_timeout = 0.05
 
     # quick and dirty checking
     #
@@ -197,8 +327,8 @@ def read_from_table():
     index = 0
     seqno = 0
 
-    while index < len(dlt645_07_ids):
-        id = dlt645_07_ids[index]
+    while index < len(id_table):
+        id = id_table[index]
         for retries in range(3):
             frame, ctrl, _ = read_single_id(id, seqno)
             if len(frame):
@@ -219,25 +349,50 @@ def read_from_table():
 
 if __name__== '__main__':
     argp = ArgumentParser(prog='dlt645tst.py')
-    argp.add_argument('device', help='serial device name')
+    argp.add_argument('device'
+            , help='serial device name: for example, /dev/ttyUSB0, COM5')
     argp.add_argument('addrs', nargs='+'
-            , help='one or more server address in decimal string')
+            , help='one or more server addresses in decimal string, '
+            'separated by space')
+    argp.add_argument('-t', '--id-table'
+            , default='keli'
+            , help='id table name: keli, weisheng and all')
     argp.add_argument('-b', '--baud'
             , type=int
             , default=2400
             , help='baud rate')
-    argp.add_argument('-w', '--err-wait'
+    argp.add_argument('-e', '--err-wait'
             , type=float
             , default=3.0
-            , help='error wait')
+            , help='error wait (n.n secs)')
     argp.add_argument('-l', '--idle-wait'
             , type=float
             , default=0.02
-            , help='idle wait')
+            , help='idle wait (n.n secs)')
+    argp.add_argument('-r', '--resp-timeout'
+            , type=float
+            , default=3
+            , help='response timeout')
+    argp.add_argument('-c', '--inter-char-timeout'
+            , type=float
+            , default=0.05
+            , help='inter char timeout (n.n secs)')
 
     args = argp.parse_args()
+    if args.id_table == 'keli':
+        id_table = keli_07_ids
+    elif args.id_table == 'weisheng':
+        id_table = weisheng_07_ids
+    elif args.id_table == 'all':
+        id_table = keli_07_ids + weisheng_07_ids
+    else:
+        print 'invalid id table'
+        raise SystemExit
     err_wait = args.err_wait
     idle_wait = args.idle_wait
+    resp_timeout = args.resp_timeout
+    inter_char_timeout = args.inter_char_timeout
+
     seri = open_seri(args.device, args.baud)
 
     for addr in args.addrs:
