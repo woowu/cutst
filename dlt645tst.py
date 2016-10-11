@@ -65,7 +65,7 @@ dlt645_07_ids = (
 seri = None
 
 def open_seri(dev, baud):
-    return serial.Serial(dev, baud, bytesize=8, parity='E')
+    return serial.Serial(dev, baud, bytesize=8, parity='E', timeout=0)
 
 def enc_addr(addr):
     i = 0
@@ -119,63 +119,72 @@ def create_read_req(id, seqno):
     return bytearray([0xfe, 0xfe]) + frame + bytearray([0x16])
 
 def recv_frame():
-    frame = bytearray()
-    ctrl = 0
-    seqno = 0
+    def opening_tag_on_char(state, c):
+        state['frame'].append(c)
+        if ord(c) == 0x68:
+            return second_tag_on_char
+        else:
+            return opening_tag_on_char
 
-    data_len = 0
+    def second_tag_on_char(state, c):
+        state['frame'].append(c)
+        if ord(c) == 0x68:
+            return ctrl_on_char
+        else:
+            return second_tag_on_char
+
+    def ctrl_on_char(state, c):
+        state['frame'].append(c)
+        state['ctrl'] = ord(c)
+        return length_on_char
+
+    def length_on_char(state, c):
+        state['frame'].append(c)
+        state['data_len'] = ord(c)
+        return data_on_char
+
+    def data_on_char(state, c):
+        state['frame'].append(c)
+        state['data_len'] -= 1
+        if state['data_len'] > 0:
+            return data_on_char
+        if has_next_data(state['ctrl']):
+            return seqno_on_char
+        else:
+            return chksum_on_char
+
+    def seqno_on_char(state, c):
+        state['frame'].append(c)
+        state['seqno'] = ord(c)
+        return chksum_on_char
+
+    def chksum_on_char(state, c):
+        state['frame'].append(c)
+        return closing_tag_on_char
+
+    def closing_tag_on_char(state, c):
+        state['frame'].append(c)
+        return None
+
+    state = {'frame': bytearray(), 'ctrl': 0, 'seqno': 0}
     resp_timeout = 3
     inter_char_timeout = 0.05
 
     # quick and dirty checking
-    seri.timeout = 0
-    s = 'opening_tag'
+    #
+    handler = opening_tag_on_char
     while True:
-        if len(frame):
+        if len(state['frame']):
             timeout = inter_char_timeout
         else:
             timeout = resp_timeout
         readable, _, _, = select([seri], [], [], timeout)
         if not readable:
-            return (frame, ctrl, 0)
+            return (state['frame'], state['ctrl'], state['seqno'])
 
-        c = seri.read(1)
-        frame.append(c)
-        c = ord(c)
-
-        if s == 'opening_tag':
-            if c == 0x68:
-                s = 'second_tag'
-            continue
-        if s == 'second_tag':
-            if c == 0x68:
-                s = 'ctrl'
-            continue
-        if s == 'ctrl':
-            ctrl = c
-            s = 'length'
-            continue
-        if s == 'length':
-            data_len = c
-            s = 'data'
-            continue
-        if s == 'data':
-            data_len -= 1
-            if data_len > 0: continue
-            if has_next_data(ctrl):
-                s = 'seqno'
-            else:
-                s = 'chksum'
-            continue
-        if s == 'seqno':
-            seqno = c
-            continue
-        if s == 'chksum':
-            s = 'closing_tag'
-            continue
-        if s == 'closing_tag':
-            break
-    return (frame, ctrl, seqno)
+        handler = handler(state, seri.read(1))
+        if not handler: break
+    return (state['frame'], state['ctrl'], state['seqno'])
 
 def read_single_id(id, seqno):
     req = create_read_req(id, seqno)
