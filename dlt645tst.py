@@ -3,9 +3,7 @@
 
 from argparse import ArgumentParser
 from select import select
-import serial
-import re
-import time
+import sys, time, re, serial, binascii
 
 dlt645_07_ids = (
     0x00010000,
@@ -94,6 +92,14 @@ def timestamp():
     msecs = str(int(time.time() * 1000))
     return msecs[0:-3] + '.' + msecs[-3:]
 
+def print_packet(packet, dir):
+    while len(packet):
+        print timestamp() + \
+                ' %s ' % dir + ' '.join(binascii.hexlify(x)
+                        for x in packet[:16])
+        packet = packet[16:]
+    sys.stdout.flush() # in case stdout is piped
+
 def create_read_req(id, seqno):
     frame = bytearray([0x68])
     frame += enc_addr(addr)
@@ -173,8 +179,7 @@ def recv_frame():
 
 def read_single_id(id, seqno):
     req = create_read_req(id, seqno)
-    print timestamp() + \
-            ' > ' + ' '.join(x.encode('hex') for x in bytes(req))
+    print_packet(bytes(req), '>')
     seri.write(bytes(req))
     seri.flush()
     return recv_frame()
@@ -188,8 +193,7 @@ def read_from_table():
         for retries in range(3):
             frame, ctrl, _ = read_single_id(id, seqno)
             if len(frame):
-                print timestamp() + \
-                        ' < ' + ' '.join(x.encode('hex') for x in bytes(frame))
+                print_packet(bytes(frame), ' ')
             else:
                 continue
 
@@ -207,7 +211,8 @@ def read_from_table():
 if __name__== '__main__':
     argp = ArgumentParser(prog='dlt645tst.py')
     argp.add_argument('device', help='serial device name')
-    argp.add_argument('addr', help='server addr in decimal string')
+    argp.add_argument('addrs', nargs='+'
+            , help='one or more server address in decimal string')
     argp.add_argument('-b', '--baud'
             , type=int
             , default=2400
@@ -222,10 +227,11 @@ if __name__== '__main__':
             , help='idle wait')
 
     args = argp.parse_args()
-    addr = args.addr
     err_wait = args.err_wait
     idle_wait = args.idle_wait
     seri = open_seri(args.device, args.baud)
 
-    read_from_table()
+    for addr in args.addrs:
+        print '== read meter %s' % addr
+        read_from_table()
 
