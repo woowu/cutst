@@ -377,6 +377,10 @@ if __name__== '__main__':
             , type=float
             , default=0.05
             , help='inter char timeout (n.n secs)')
+    argp.add_argument('-n', '--iterations'
+            , type=int
+            , default=1
+            , help='number of iterations to run')
 
     args = argp.parse_args()
     if args.id_table == 'keli':
@@ -395,7 +399,8 @@ if __name__== '__main__':
 
     seri = open_seri(args.device, args.baud)
 
-    for addr in args.addrs:
-        print '== read meter %s' % addr
-        read_from_table()
+    for i in range(args.iterations):
+        for addr in args.addrs:
+            print '== read meter %s' % addr
+            read_from_table()
 
