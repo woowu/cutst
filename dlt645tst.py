@@ -215,6 +215,9 @@ def is_normal_resp(ctrl):
 def has_next_data(ctrl):
     return ctrl & 0xe0 == 0xa0 
 
+def is_subsequent_frame(ctrl):
+    return ctrl & 0x1f == 0x12
+
 def timestamp():
     msecs = str(int(time.time() * 1000))
     return msecs[0:-3] + '.' + msecs[-3:]
@@ -243,7 +246,10 @@ def create_read_req(id, seqno):
         frame.append(seqno % 256)
 
     frame.append(mod256_sum(frame))
-    return bytearray([0xfe, 0xfe]) + frame + bytearray([0x16])
+    leading = bytearray()
+    for i in range(leading_chars_nr):
+        leading.append(0xfe)
+    return leading + frame + bytearray([0x16])
 
 def recv_frame():
     def opening_tag_on_char(state, c):
@@ -275,7 +281,8 @@ def recv_frame():
         state['data_len'] -= 1
         if state['data_len'] > 0:
             return data_on_char
-        if has_next_data(state['ctrl']):
+        if is_normal_resp(state['ctrl']) and \
+                is_subsequent_frame(state['ctrl']):
             return seqno_on_char
         else:
             return chksum_on_char
@@ -336,7 +343,8 @@ def read_from_table():
                 break
             else:
                 time.sleep(err_wait)
-        if len(frame) and has_next_data(ctrl) and seqno < 255:
+        if not no_read_subsequent and len(frame) and has_next_data(ctrl) and \
+                seqno < 255:
             seqno += 1
         else:
             seqno = 0
@@ -372,6 +380,13 @@ if __name__== '__main__':
             , type=float
             , default=0.05
             , help='inter char timeout (n.n secs)')
+    argp.add_argument('-d', '--leading-chars'
+            , type=int
+            , default=2
+            , help='number of leading chars in sending (default: 2)')
+    argp.add_argument('-s', '--no-read-subsequent'
+            , action='store_true'
+            , help='not to read subsequent data')
     argp.add_argument('-n', '--iterations'
             , type=int
             , default=1
@@ -391,6 +406,8 @@ if __name__== '__main__':
     idle_wait = args.idle_wait
     resp_timeout = args.resp_timeout
     inter_char_timeout = args.inter_char_timeout
+    leading_chars_nr = args.leading_chars
+    no_read_subsequent = args.no_read_subsequent
 
     seri = open_seri(args.device, args.baud)
 
