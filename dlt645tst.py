@@ -252,7 +252,7 @@ def create_read_req(id, seqno):
         frame.append((id + COMPLEMENT_CHAR) % 256)
         id /= 256
 
-    # Keli considers seqno as not part of data
+    # Keli did not complement the seqno with 51
     if seqno > 0:
         frame.append(seqno % 256)
 
