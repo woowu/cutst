@@ -13,20 +13,16 @@ def timestamp():
     return msecs[0:-3] + '.' + msecs[-3:]
 
 def print_packet(packet):
-    width = 32
-    while len(packet):
-        print timestamp() + ' ' + \
-                ' '.join(binascii.hexlify(x)
-                        for x in packet[:width])
-        packet = packet[width:]
-    #sys.stdout.flush() # in case stdout is piped
+    print timestamp() + ' ' + \
+            ' '.join(binascii.hexlify(x)
+                    for x in packet)
 
 def keep_reading():
     packet = bytearray()
     while True:
         readable, _, _, = select([seri], [], [], inter_char_timeout)
         if readable:
-            packet.append(seri.read(1024))
+            packet += bytearray(seri.read(1024))
         elif len(packet):
             print_packet(bytes(packet))
             packet = bytearray()
