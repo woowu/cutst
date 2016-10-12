@@ -194,7 +194,19 @@ keli_07_ids = (
     0x04010001,
     )
 
-seri = None
+ID_LENGTH                   = 4
+
+LEADING_CHAR                = 254
+OPENING_TAG                 = 104
+CLOSING_TAG                 = 22
+COMPLEMENT_CHAR             = 51
+FC_READ_DATA                = 17
+FC_READ_NEXT_DATA           = 18
+
+FR_RESP_MASK                = 0x80
+FR_RESP_FLG_MASK            = 0x40
+FR_SUBSEQUENT_IND_MASK      = 0x20
+FR_FC_MASK                  = 0x1f
 
 def open_seri(dev, baud):
     return serial.Serial(dev, baud, bytesize=8, parity='E', timeout=0)
@@ -202,21 +214,19 @@ def open_seri(dev, baud):
 def enc_addr(addr):
     norm = addr.rjust(12, '0')
     grouped = [int(norm[i:i + 2]) for i in range(0, len(norm), 2)]
-    bcd = bytearray([e / 10 * 16 + e % 10 for e in grouped])
-    bcd.reverse()
-    return bcd
+    return bytearray([e / 10 * 16 + e % 10 for e in reversed(grouped)])
 
 def mod256_sum(barry):
     return reduce(lambda x, y: x + y, barry) % 256
 
 def is_normal_resp(ctrl):
-    return ctrl & 0xc0 == 0x80
+    return (ctrl & FR_RESP_MASK) and not (ctrl & FR_RESP_FLG_MASK)
 
 def has_next_data(ctrl):
-    return ctrl & 0xe0 == 0xa0 
+    return is_normal_resp(ctrl) and (ctrl & FR_SUBSEQUENT_IND_MASK)
 
 def is_subsequent_frame(ctrl):
-    return ctrl & 0x1f == 0x12
+    return ctrl & FR_FC_MASK == FC_READ_NEXT_DATA
 
 def timestamp():
     msecs = str(int(time.time() * 1000))
@@ -231,14 +241,14 @@ def print_packet(packet, dir):
     sys.stdout.flush() # in case stdout is piped
 
 def create_read_req(id, seqno):
-    frame = bytearray([0x68])
+    frame = bytearray([OPENING_TAG])
     frame += enc_addr(addr)
     if seqno == 0:
-        frame += bytearray([0x68, 0x11, 0x04])
+        frame += bytearray([OPENING_TAG, FC_READ_DATA, ID_LENGTH])
     else:
-        frame += bytearray([0x68, 0x12, 0x05])
-    for i in range(4):
-        frame.append((id % 256 + 0x33) % 256)
+        frame += bytearray([OPENING_TAG, FC_READ_NEXT_DATA, ID_LENGTH + 1])
+    for i in range(ID_LENGTH):
+        frame.append((id + COMPLEMENT_CHAR) % 256)
         id /= 256
 
     # Keli considers seqno as not part of data
@@ -249,19 +259,19 @@ def create_read_req(id, seqno):
     leading = bytearray()
     for i in range(leading_chars_nr):
         leading.append(0xfe)
-    return leading + frame + bytearray([0x16])
+    return leading + frame + bytearray([CLOSING_TAG])
 
 def recv_frame():
     def opening_tag_on_char(state, c):
         state['frame'].append(c)
-        if ord(c) == 0x68:
+        if ord(c) == OPENING_TAG:
             return second_tag_on_char
         else:
             return opening_tag_on_char
 
     def second_tag_on_char(state, c):
         state['frame'].append(c)
-        if ord(c) == 0x68:
+        if ord(c) == OPENING_TAG:
             return ctrl_on_char
         else:
             return second_tag_on_char
@@ -298,12 +308,12 @@ def recv_frame():
 
     def closing_tag_on_char(state, c):
         state['frame'].append(c)
+        if ord(c) == CLOSING_TAG:
+            state['completed'] = True
         return None
 
-    state = {'frame': bytearray(), 'ctrl': 0, 'seqno': 0}
+    state = {'frame': bytearray(), 'ctrl': 0, 'seqno': 0, 'completed': False}
 
-    # quick and dirty checking
-    #
     handler = opening_tag_on_char
     while True:
         if len(state['frame']):
@@ -311,12 +321,11 @@ def recv_frame():
         else:
             timeout = resp_timeout
         readable, _, _, = select([seri], [], [], timeout)
-        if not readable:
-            return (state['frame'], state['ctrl'], state['seqno'])
+        if not readable: return state
 
         handler = handler(state, seri.read(1))
         if not handler: break
-    return (state['frame'], state['ctrl'], state['seqno'])
+    return state
 
 def read_single_id(id, seqno):
     req = create_read_req(id, seqno)
@@ -332,19 +341,18 @@ def read_from_table():
     while index < len(id_table):
         id = id_table[index]
         for r in range(retries):
-            frame, ctrl, _ = read_single_id(id, seqno)
-            if len(frame):
-                print_packet(bytes(frame), ' ')
-            else:
-                continue
+            resp_info = read_single_id(id, seqno)
+            print_packet(bytes(resp_info['frame']), ' ')
+            if not len(resp_info['frame']): continue
 
-            if is_normal_resp(ctrl): 
+            if is_normal_resp(resp_info['ctrl']): 
                 time.sleep(idle_wait)
                 break
             else:
                 time.sleep(err_wait)
-        if not no_read_subsequent and len(frame) and has_next_data(ctrl) and \
-                seqno < 255:
+        if not no_read_subsequent and len(resp_info['frame']) \
+                and has_next_data(resp_info['ctrl']) \
+                and seqno < 255:
             seqno += 1
         else:
             seqno = 0
