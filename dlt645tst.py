@@ -195,6 +195,7 @@ keli_07_ids = (
     )
 
 ID_LENGTH                   = 4
+ADDR_LENGTH                 = 6
 
 LEADING_CHAR                = 254
 OPENING_TAG                 = 104
@@ -265,16 +266,25 @@ def recv_frame():
     def opening_tag_on_char(state, c):
         state['frame'].append(c)
         if ord(c) == OPENING_TAG:
-            return second_tag_on_char
+            state['_len'] = 0
+            return addr_on_char
         else:
             return opening_tag_on_char
+
+    def addr_on_char(state, c):
+        state['frame'].append(c)
+        state['_len'] += 1
+        if state['_len'] == ADDR_LENGTH:
+            return second_tag_on_char
+        else:
+            return addr_on_char
 
     def second_tag_on_char(state, c):
         state['frame'].append(c)
         if ord(c) == OPENING_TAG:
             return ctrl_on_char
         else:
-            return second_tag_on_char
+            return None
 
     def ctrl_on_char(state, c):
         state['frame'].append(c)
@@ -283,23 +293,17 @@ def recv_frame():
 
     def length_on_char(state, c):
         state['frame'].append(c)
-        state['data_len'] = ord(c)
-        return data_on_char
-
-    def data_on_char(state, c):
-        state['frame'].append(c)
-        state['data_len'] -= 1
-        if state['data_len'] > 0:
+        state['_len'] = ord(c)
+        if state['_len']:
             return data_on_char
-        if is_normal_resp(state['ctrl']) and \
-                is_subsequent_frame(state['ctrl']):
-            return seqno_on_char
         else:
             return chksum_on_char
 
-    def seqno_on_char(state, c):
+    def data_on_char(state, c):
         state['frame'].append(c)
-        state['seqno'] = ord(c)
+        state['_len'] -= 1
+        if state['_len'] > 0:
+            return data_on_char
         return chksum_on_char
 
     def chksum_on_char(state, c):
@@ -312,7 +316,7 @@ def recv_frame():
             state['completed'] = True
         return None
 
-    state = {'frame': bytearray(), 'ctrl': 0, 'seqno': 0, 'completed': False}
+    state = {'frame': bytearray(), 'ctrl': 0, 'completed': False}
 
     handler = opening_tag_on_char
     while True:
@@ -321,15 +325,20 @@ def recv_frame():
         else:
             timeout = resp_timeout
         readable, _, _, = select([seri], [], [], timeout)
-        if not readable: return state
+        if not readable:
+            if not len(state['frame']):
+                print 'timeout'
+            return state
 
         handler = handler(state, seri.read(1))
         if not handler: break
+    state.pop('_len', None)
     return state
 
 def read_single_id(id, seqno):
     req = create_read_req(id, seqno)
-    print_packet(bytes(req), '>')
+    if not no_trace:
+        print_packet(bytes(req), '>')
     seri.write(bytes(req))
     seri.flush()
     return recv_frame()
@@ -342,7 +351,9 @@ def read_from_table():
         id = id_table[index]
         for r in range(retries):
             resp_info = read_single_id(id, seqno)
-            print_packet(bytes(resp_info['frame']), ' ')
+            if len(resp_info['frame']) \
+                    and (not no_trace or not resp_info['completed']):
+                print_packet(bytes(resp_info['frame']), ' ')
             if not len(resp_info['frame']): continue
 
             if is_normal_resp(resp_info['ctrl']): 
@@ -399,6 +410,9 @@ if __name__== '__main__':
     argp.add_argument('-s', '--no-read-subsequent'
             , action='store_true'
             , help='not to read subsequent data')
+    argp.add_argument('-x', '--no-trace'
+            , action='store_true'
+            , help='not to trace communication')
     argp.add_argument('-n', '--iterations'
             , type=int
             , default=1
@@ -420,12 +434,14 @@ if __name__== '__main__':
     inter_char_timeout = args.inter_char_timeout
     retries = args.retries
     leading_chars_nr = args.leading_chars
+    no_trace = args.no_trace
     no_read_subsequent = args.no_read_subsequent
 
     seri = open_seri(args.device, args.baud)
 
     for i in range(args.iterations):
+        print 'iteration %d' % (i + 1)
         for addr in args.addrs:
-            print '== read meter %s' % addr
+            print 'read meter %s' % addr
             read_from_table()
 
