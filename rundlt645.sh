@@ -1,5 +1,17 @@
 #!/bin/bash
 
-dlt645tst.py /dev/tts4 -n100000 -tweisheng -d4 -s 37102083
-dlt645tst.py /dev/tts4 -n100000 -tkeli 37102083
+dev=$1
+meter_no=$2
+
+if [[ ! -c $dev ]]; then
+    echo no device
+    exit 1
+fi
+
+if [[ -z $meter_no ]]; then
+    echo no meter_no
+    exit 1
+fi
+
+dlt645tst.py $dev -n100000 -tweisheng -d4 -s $meter_no
 
