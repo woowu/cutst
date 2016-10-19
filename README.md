@@ -2,7 +2,8 @@
 
 CU-Z62 Q189-F11 Testing
 
-FFC3: ![Alt](/q189-ats-back.png)
+![ATS-Front](/q189-ats-front.png)
+![ATS-Back](/q189-ats-back.png)
 
 # Test Log Files
 
