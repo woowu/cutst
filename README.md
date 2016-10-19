@@ -18,7 +18,8 @@ CU-Z62 Q189-F11 Testing
 
 FFC3 can see a very strange dlms response that contains
 a corrupted DLMS apdu encapsulated in a valid HDLC frame.
-Below are detail log locations:
+This *possibly* means meter DLMS tx buffer damaged. Below
+are detail log locations:
 
 - 2023.log:1596
 - 2023.log:1005499
