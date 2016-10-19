@@ -213,8 +213,9 @@ def open_seri(dev, baud):
     return serial.Serial(dev, baud, bytesize=8, parity='E', timeout=0)
 
 def timestamp():
-    msecs = str(int(time.time() * 1000))
-    return msecs[0:-3] + '.' + msecs[-3:]
+    secs = time.time()
+    return time.strftime("%y%m%d %H%M%S", time.localtime(int(secs))) + '.%03d' \
+            % int((secs % 1) * 1000)
 
 def print_packet(packet, dir):
     width = 16
