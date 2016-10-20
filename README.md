@@ -89,7 +89,7 @@ ports.
     - Woody ask: What is the MCU running speed of CU-Z62 and CU-U52?
     - Woody ask: Can I get a full timing capture of the S0 communication
     instance? The previous one is not set in the same time scale for CU-Z62
-    and CU-U52/B4, hence I cannot not tell in what protocol stage the time
+    and CU-U52/B4, hence I cannot tell in what protocol stage the time
     is used.
     - Woody plan to draw a timing and state-machine diagram for the behavior
     of CU-Z62's MCO/SPI module.
