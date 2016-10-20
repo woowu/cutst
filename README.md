@@ -48,15 +48,11 @@ a corrupted DLMS apdu encapsulated in a valid HDLC frame.
 This *possibly* means meter DLMS tx buffer damaged. Below
 are detail log locations:
 
-- E850#51510663 2023.log:1596
-- E850#51510663 2023.log:1005499
-- E850#51510663 2023.log:1434241
-- E850#51510663 2033.log:1004146
-
-| Meter | Log |
-|-------|-----|
-|123    | 333 |
-
+| Meter         | Log              |
+|---------------|------------------|
+| E850#51510663 | 2023.log:1596    |
+| E850#51510663 | 2023.log:1434241 |
+| E850#51510663 | 2033.log:1004146 |
 
 By far, this kind of traffics were observed only in CU's 
 DLMS RS485 ports, *not yet* observed in base meter's RS485
