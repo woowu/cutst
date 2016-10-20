@@ -62,6 +62,10 @@ ports.
 
 ## F11 Occurences
 
+### Observed patterns:
+![f11 pattern](f11-observation-eps-converted-to.png)
+
+### Detail logs
 - E650#37102083: 2016-10-17 17:45:28 (Unix time: 1476697528)
 ![setup-1](/setup-1.png)
     - 2011.log:249725 dlt645 timeout
