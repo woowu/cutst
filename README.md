@@ -68,7 +68,7 @@ ports.
 ### Detail logs
 - E650#37102083: 2016-10-17 17:45:28 (Unix time: 1476697528)
 ![setup-1](/setup-1.png)
-    - 2011.log:249725 dlt645 timeout
+    - 2011.log:249725 dlt645 timeout [exerpt](log-excerpt/2011.log.249725)
     - 2012.log:170592 dlms timeout, then send DM after several secs
 - E650#37102084: 2016-10-18 19:53:27 (Unix time: 1476791607)
 ![setup-1](/setup-1.png)
