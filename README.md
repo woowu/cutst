@@ -70,7 +70,7 @@ ports.
 - E650#37102083: 2016-10-17 17:45:28 (Unix time: 1476697528)
 ![setup-1](/setup-1.png)
     - 2011.log:249725 dlt645 timeout [exerpt](log-excerpt/2011.log.249725)
-    - 2012.log:170592 dlms timeout, then send DM after several secs [exerpt](log-excerpt/2011.log.249725)
+    - 2012.log:170592 dlms timeout, then send DM after several secs [exerpt](log-excerpt/2012.log.170592)
 - E650#37102084: 2016-10-18 19:53:27 (Unix time: 1476791607) 
 ![setup-1](/setup-1.png)
     - 2020.log:302470 dlt645 timeout [exerpt](log-excerpt/2020.log.302470)
@@ -97,5 +97,4 @@ ports.
     of CU-Z62's MCO/SPI module.
 - How CU-Z62 protect its four app task from race conditions?
     - This is important. But yet to study.
-
 
