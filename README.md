@@ -79,3 +79,21 @@ ports.
     - 2021.log:452403 dlt645 timeout
     - 2023.log:634572 dlms timeout, then send DM after several secs
 
+# Open Points
+
+- Why CU-Z62's SPI has its MISO pin as high level when in idle mode?
+    -- It probably due to some incorrectly setting of the M16C SI/O
+    registers, also possibly due to MISO need to keep its last data
+    for half-clock time. Woody need to read more specs to understand.
+- Why CU-Z62's SPI has only half speed comparing to CU-U52 and CU-B4
+    -- Woody ask: What is the MCU running speed of CU-Z62 and CU-U52?
+    -- Woody ask: Can I get a full timing capture of the S0 communication
+    instance? The previous one is not set in the same time scale for CU-Z62
+    and CU-U52/B4, hence I cannot not tell in what protocol stage the time
+    is used.
+    -- Woody plan to draw a timing and state-machine diagram for the behavior
+    of CU-Z62's MCO/SPI module.
+- How CU-Z62 protect its four app task from race conditions?
+    -- This is important. But not yet started to study.
+
+
