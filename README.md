@@ -53,6 +53,7 @@ are detail log locations:
 | E850#51510663 | 2023.log:1596    | [excerpt](log-excerpt/2023-1096_2096.log)       |                                                |
 | E850#51510663 | 2023.log:1434241 | [excerpt](log-excerpt/2023-1433741_1434741.log) |                                            |
 | E850#51510663 | 2033.log:1004146 | [excerpt](log-excerpt/2033-1003646_1004646.log) |
+| E650#37102084 | 2035.log:1830091 | [excerpt](log-excerpt/2035.log.1830091) |
 
 ![seq-diagram](bad-dlms-apdu-seq-eps-converted-to.png)
 
