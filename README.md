@@ -48,11 +48,11 @@ a corrupted DLMS apdu encapsulated in a valid HDLC frame.
 This *possibly* means meter DLMS tx buffer damaged. Below
 are detail log locations:
 
-| Meter         | Log              |
+| Meter         | Log              | Excerpt |
 |---------------|------------------|
-| E850#51510663 | 2023.log:1596    |
+| E850#51510663 | 2023.log:1596    | 
 | E850#51510663 | 2023.log:1434241 |
-| E850#51510663 | 2033.log:1004146 |
+| E850#51510663 | 2033.log:1004146 | [log](log-excerpt/2033-1003646_1004646.log) |
 
 ![seq-diagram](bad-dlms-apdu-seq-eps-converted-to.png)
 
@@ -82,9 +82,10 @@ ports.
 # Open Points
 
 - Why CU-Z62's SPI has its MISO pin as high level when in idle mode?
-    - It probably due to some incorrectly setting of the M16C SI/O
-    registers, also possibly due to MISO need to keep its last data
-    for half-clock time. Woody need to read more specs to understand.
+    - It *probably* due to some incorrectly setting of the M16C SI/O
+    registers, also *possibly* due to MISO need to keep its last data
+    for half-clock time. It need to read more M16C documents to 
+    understand it.
 - Why CU-Z62's SPI has only half speed comparing to CU-U52 and CU-B4
     - Woody ask: What is the MCU running speed of CU-Z62 and CU-U52?
     - Woody ask: Can I get a full timing capture of the S0 communication
@@ -94,6 +95,6 @@ ports.
     - Woody plan to draw a timing and state-machine diagram for the behavior
     of CU-Z62's MCO/SPI module.
 - How CU-Z62 protect its four app task from race conditions?
-    - This is important. But not yet started to study.
+    - This is important. But yet to study.
 
 
