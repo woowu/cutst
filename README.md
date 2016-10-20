@@ -54,19 +54,24 @@ are detail log locations:
 | E850#51510663 | 2023.log:1434241 |
 | E850#51510663 | 2033.log:1004146 |
 
+[link](bad-dlms-apdu-seq-eps-converted-to.pdf "pdf")
+
 By far, this kind of traffics were observed only in CU's 
 DLMS RS485 ports, *not yet* observed in base meter's RS485
 ports.
 
 ## F11 Occurences
 
-- E650#37102083: 2016-10-17 17:45:28 (1476697528) ![setup-1](/setup-1.png)
+- E650#37102083: 2016-10-17 17:45:28 (Unix time: 1476697528)
+![setup-1](/setup-1.png)
     - 2011.log:249725 dlt645 timeout
     - 2012.log:170592 dlms timeout, then send DM after several secs
-- E650#37102084: 2016-10-18 19:53:27 (1476791607) ![setup-1](/setup-1.png)
+- E650#37102084: 2016-10-18 19:53:27 (Unix time: 1476791607)
+![setup-1](/setup-1.png)
     - 2020.log:302470 dlt645 timeout
     - 2022.log:333367 dlms timeout, then send DM after several secs
-- E850#51510663: 2016-10-18 23:01:41 (1476802901) ![setup-2](/setup-2.png)
+- E850#51510663: 2016-10-18 23:01:41 (Unix time: 1476802901)
+![setup-2](/setup-2.png)
     - 2021.log:452403 dlt645 timeout
     - 2023.log:634572 dlms timeout, then send DM after several secs
 

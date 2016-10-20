@@ -1,0 +1,5 @@
+*.log
+*.eps
+*.aux
+*.fig
+mkpdf.pdf

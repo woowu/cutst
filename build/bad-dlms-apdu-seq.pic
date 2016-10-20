@@ -1,0 +1,34 @@
+.PS
+copy "sequence.pic";
+
+object(F,"FFC3");
+placeholder_object(S);
+object(C,"CU Dlms");
+step();
+
+active(F);
+active(C);
+step();
+message(F,C, "read profile/event");
+step()
+return_message(C,F,"Bad Dlms Apdu");
+step()
+message(F,C, "retry reading");
+message(F,F, "timeout");
+message(F,C, "retry reading");
+message(F,F, "timeout");
+inactive(F);
+step()
+comment(F,M,down .5 right .2, wid 2 ht 1 \
+    "comm block repeated until" \
+    "enough idle time" \
+    "was inserted between" \
+    "ATS and CU." \
+    "Then it restores");
+
+step();
+step();
+inactive(C)
+complete(F);
+complete(C);
+.PE
