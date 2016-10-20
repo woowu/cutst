@@ -48,11 +48,11 @@ a corrupted DLMS apdu encapsulated in a valid HDLC frame.
 This *possibly* means meter DLMS tx buffer damaged. Below
 are detail log locations:
 
-| Meter         | Log              | Excerpt                                     |
-|---------------|------------------|---------------------------------------------|
-| E850#51510663 | 2023.log:1596    |                                             |
-| E850#51510663 | 2023.log:1434241 |                                             |
-| E850#51510663 | 2033.log:1004146 | [log](log-excerpt/2033-1003646_1004646.log) |
+| Meter         | Log              | Excerpt                                         |
+|---------------|------------------|-------------------------------------------------|
+| E850#51510663 | 2023.log:1596    | [excerpt](log-excerpt/2023-1096_2096.log)       |                                                |
+| E850#51510663 | 2023.log:1434241 | [excerpt](log-excerpt/2023-1433741_1434741.log) |                                            |
+| E850#51510663 | 2033.log:1004146 | [excerpt](log-excerpt/2033-1003646_1004646.log) |
 
 ![seq-diagram](bad-dlms-apdu-seq-eps-converted-to.png)
 
