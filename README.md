@@ -87,8 +87,8 @@ ports.
     registers, also *possibly* due to MISO need to keep its last data
     for half-clock time. It need to read more M16C documents to 
     understand it.
-- Why CU-Z62's SPI has only half speed comparing to CU-U52 and CU-B4
-    - Woody ask: What is the MCU running speed of CU-Z62 and CU-U52?
+- Why CU-Z62's SPI has only half speed comparing to CU-U52 and CU-B4 ?
+    - Woody ask: What is the MCU running speed of CU-U52 and CU-B4 ?
     - Woody ask: Can I get a full timing capture of the S0 communication
     instance? The previous one is not set in the same time scale for CU-Z62
     and CU-U52/B4, hence I cannot tell in what protocol stage the time
