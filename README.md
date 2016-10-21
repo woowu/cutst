@@ -65,7 +65,7 @@ ports.
 ## F11 Occurences
 
 ### Observed patterns:
-![](https://github.com/woowu/cutst/blob/master/f11-observation.svg |width=100)
+<img src="https://github.com/woowu/cutst/blob/master/f11-observation.svg" alt="f11-pattern" width="200" height="200"/>
 
 ### Detail logs
 - E650#37102083: 2016-10-17 17:45:28 (Unix time: 1476697528)
