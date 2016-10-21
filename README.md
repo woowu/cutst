@@ -65,7 +65,8 @@ ports.
 ## F11 Occurences
 
 ### Observed patterns:
-<img src="https://github.com/woowu/cutst/blob/master/f11-observation.svg" alt="f11-pattern" width="200" height="200"/>
+![Alt text](http://potherca.github.io/StackOverflow/question.13808020.include-an-svg-hosted-on-github-in-markdown/controllers_brief.svg)
+<img src="http://potherca.github.io/StackOverflow/question.13808020.include-an-svg-hosted-on-github-in-markdown/controllers_brief.svg">
 
 ### Detail logs
 - E650#37102083: 2016-10-17 17:45:28 (Unix time: 1476697528)
