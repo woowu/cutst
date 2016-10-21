@@ -56,7 +56,7 @@ are detail log locations:
 | E650#37102084 | 2035.log:1830091 | [excerpt](log-excerpt/2035.log.1830091) |
 | E850#51510663 | 2033.log:1779813 ||                                            |
 
-![seq-diagram](bad-dlms-apdu-seq-eps-converted-to.png)
+![seq-diagram](https://woowu.github.io/cutst/bad-dlms-apdu-seq.svg)
 
 By far, this kind of traffics were observed only in CU's 
 DLMS RS485 ports, *not yet* observed in base meter's RS485
