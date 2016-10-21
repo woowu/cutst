@@ -2,11 +2,9 @@
 copy "sequence.pic";
 
 object(F,"FFC3");
-placeholder_object(S1);
+placeholder_object(S);
 object(L,"CU Dlt645");
-placeholder_object(S2);
 object(D,"CU Dlms");
-placeholder_object(S3);
 object(M,"E650/E850");
 step();
 
@@ -15,31 +13,32 @@ active(L);
 active(D);
 step();
 
-begin_frame(F,FR,"concurrent")
-message(F,L, "read dlt645");
+message(F,L, "dlt645 read");
 return_message(L,F,"normal response");
-message(F,D, "read dlms");
+message(F,D, "dlms read");
 return_message(L,F,"normal response");
-message(F,F, "comm timeout dlt645 and dlms");
+message(F,L, "dlt645 read");
+message(F,F,"timeout");
+message(F,D, "dlms read");
+message(F,F,"timeout");
 step()
-end_frame(D,FR)
+step()
+
+comment(F,C,right, wid 1.5 ht 0.5 \
+  "comm blocked ~2s");
 
 active(M)
 message(M,M, "recorded F11");
 inactive(M)
 
-begin_frame(F,FR,"concurrent")
-message(F,L, "read dlt645");
+message(F,L, "dlt645 read");
 return_message(L,F,"normal response");
-message(F,D, "read dlms");
-return_message(L,F,"normal response");
-end_frame(D,FR)
+message(F,D, "send HDLC.RR");
+return_message(D,F,"HDLC.DM");
 
 step();
-step();
-inactive(F)
-inactive(L)
-inactive(D)
-inactive(M)
-step();
+complete(F)
+complete(L)
+complete(D)
+complete(M)
 .PE

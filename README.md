@@ -15,10 +15,13 @@ CU-Z62 Q189-F11 Testing
 ![ATS-Front](/q189-ats-front.png)
 ![ATS-Back](/q189-ats-back.png)
 
+![fixture](https://woowu.github.io/cutst/fixture.svg)
+
+
 ## Test Programs 
 
 dlt645tst
-: Python script that do DLT645 communication with CU, its behavior
+: Python script that do DL645 communication with CU, its behavior
 are simulations to the in-field data concentrators (Weisheng and Keli)
 
 xdlms
@@ -70,15 +73,15 @@ ports.
 ### Detail logs
 - E650#37102083: 2016-10-17 17:45:28 (Unix time: 1476697528)
 ![setup-1](/setup-1.png)
-    - 2011.log:249725 dlt645 timeout [exerpt](log-excerpt/2011.log.249725)
+    - 2011.log:249725 dl645 timeout [exerpt](log-excerpt/2011.log.249725)
     - 2012.log:170592 dlms timeout, then send DM after several secs [exerpt](log-excerpt/2012.log.170592)
 - E650#37102084: 2016-10-18 19:53:27 (Unix time: 1476791607) 
 ![setup-1](/setup-1.png)
-    - 2020.log:302470 dlt645 timeout [exerpt](log-excerpt/2020.log.302470)
+    - 2020.log:302470 dl645 timeout [exerpt](log-excerpt/2020.log.302470)
     - 2022.log:333367 dlms timeout, then send DM after several secs [exerpt](log-excerpt/2022.log.333367)
 - E850#51510663: 2016-10-18 23:01:41 (Unix time: 1476802901)
 ![setup-2](/setup-2.png)
-    - 2021.log:452403 dlt645 timeout [exerpt](log-excerpt/2021.log.452403)
+    - 2021.log:452403 dl645 timeout [exerpt](log-excerpt/2021.log.452403)
     - 2023.log:634572 dlms timeout, then send DM after several secs [exerpt](log-excerpt/2023.log.634572)
 
 # Open Points

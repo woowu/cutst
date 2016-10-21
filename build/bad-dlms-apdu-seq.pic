@@ -13,22 +13,29 @@ message(F,C, "read profile/event");
 step()
 return_message(C,F,"Bad Dlms Apdu");
 step()
-message(F,C, "retry reading");
+begin_frame(F,FR,"repeat=3")
+message(F,C, "send HDLC.RR");
 message(F,F, "timeout");
-message(F,C, "retry reading");
-message(F,F, "timeout");
-inactive(F);
 step()
-comment(F,M,down .5 right .2, wid 2 ht 1 \
-    "comm block repeated until" \
-    "enough idle time" \
-    "was inserted between" \
-    "ATS and CU." \
-    "Then it restores");
+end_frame(C,FR)
+
+step()
+begin_frame(F,FR,"repeat=3")
+message(F,C, "send HDLC.DISC");
+message(F,F, "timeout");
+step()
+end_frame(C,FR)
+
+step()
+step()
+comment(F,M, right .2, wid 1.5 ht 0.5 "idle for 120s+");
+step()
+step()
+
+message(F,C, "HDLC.CONNECT");
+message(C,F, "HDLC.CON");
 
 step();
-step();
-inactive(C)
 complete(F);
 complete(C);
 .PE

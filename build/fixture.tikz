@@ -1,0 +1,39 @@
+\begin{tikzpicture}[%
+    >=Stealth,
+    node distance=0cm,
+    dev/.style={draw, fill=white, thick, minimum width=2.265cm,
+      minimum height=1.4cm},
+      proto/.style={pos=0.4, sloped, below, font={\small\it}}
+    ]
+  \node[dev, rounded corners] at (0cm, 0cm) (cu) {CU-Z62};
+  \begin{scope}[node distance=.3cm and .1cm
+    , every node/.style={drop shadow={opacity=1}}
+    ]
+    \node[dev, above left = of cu, xshift=0.7cm]
+      (e850) {E850};
+    \node[dev, above right = of cu, xshift=-0.7cm]
+      (e650) {E650};
+  \end{scope}
+
+  \draw[<->, gray] (cu) -- (e850);
+  \draw[<->, gray] (cu) -- (e650);
+  \draw[<->] (cu.-65) -- +(0cm, -2cm) node[proto] {DL645};
+  \draw[<->] (cu.-45) -- +(0cm, -2cm) node[proto] {DLMS};
+  \draw[<->] (e850.225) -- +(0cm, -2cm) node[proto] {DLMS};
+
+  \fill[red!50] (cu.-65)  ++(-0.1cm, -1.45cm) circle [radius=1.5pt];
+  \fill[blue!50] (cu.-65)  ++(-0.1cm, -1.50cm) circle [radius=1.5pt];
+  \fill[green!50] (cu.-65)  ++(-0.1cm, -1.55cm) circle [radius=1.5pt];
+  \fill[red!50] (cu.-45)  ++(-0.1cm, -1.45cm) circle [radius=1.5pt];
+  \fill[blue!50] (cu.-45)  ++(-0.1cm, -1.50cm) circle [radius=1.5pt];
+  \fill[green!50] (e850.225)  ++(-0.1cm, -1.45cm) circle [radius=1.5pt];
+
+  \fill[red!50] (cu.south east) ++(-0.2cm, 0.4cm) circle [radius=1.5pt];
+  \fill[blue!50] (cu.south east) ++(-0.2cm, 0.35cm) circle [radius=1.5pt];
+  \fill[green!50] (cu.south east) ++(-0.2cm, 0.30cm) circle [radius=1.5pt];
+
+  \fill[red!50] (e650.south east) ++(-0.2cm, 0.4cm) circle [radius=1.5pt];
+  \fill[blue!50] (e650.south east) ++(-0.2cm, 0.35cm) circle [radius=1.5pt];
+  \fill[green!50] (e850.south east) ++(-0.2cm, 0.30cm) circle [radius=1.5pt];
+\end{tikzpicture}
+

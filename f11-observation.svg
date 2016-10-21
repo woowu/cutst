@@ -4,94 +4,101 @@
 <title>SVG drawing</title>
 <desc>This was produced by version 4.4 of GNU libplot, a free library for exporting 2-D vector graphics.</desc>
 <rect id="background" x="0" y="0" width="1" height="1" stroke="none" fill="white"/>
-<g id="content" transform="translate(-0.03125,0.19946) scale(0.12143,-0.12143) " xml:space="preserve" stroke="black" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10.433" stroke-dasharray="none" stroke-dashoffset="0" stroke-opacity="1" fill="none" fill-rule="evenodd" fill-opacity="1" font-style="normal" font-variant="normal" font-weight="normal" font-stretch="normal" font-size-adjust="none" letter-spacing="normal" word-spacing="normal" text-anchor="start">
-<rect x="0" y="-0.15" width="0.75" height="0.3" stroke-width="0.0096886" />
-<text transform="translate(0.19628,-0.05047) scale(0.0071487,-0.0071487) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" >FFC3</text>
-<line x1="0.1" y1="-0.07" x2="0.65" y2="-0.07" stroke-width="0.0096886" />
-<rect x="2.5" y="-0.15" width="0.75" height="0.3" stroke-width="0.0096886" />
-<text transform="translate(2.5453,-0.05047) scale(0.0071487,-0.0071487) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" >CU Dlt645</text>
-<line x1="2.6" y1="-0.07" x2="3.15" y2="-0.07" stroke-width="0.0096886" />
-<rect x="5" y="-0.15" width="0.75" height="0.3" stroke-width="0.0096886" />
-<text transform="translate(5.0891,-0.05047) scale(0.0071487,-0.0071487) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" >CU Dlms</text>
-<line x1="5.1" y1="-0.07" x2="5.65" y2="-0.07" stroke-width="0.0096886" />
-<rect x="7.5" y="-0.15" width="0.75" height="0.3" stroke-width="0.0096886" />
-<text transform="translate(7.5213,-0.05047) scale(0.0071487,-0.0071487) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" >E650/E850</text>
-<line x1="7.6" y1="-0.07" x2="8.15" y2="-0.07" stroke-width="0.0096886" />
-<line x1="0.375" y1="-0.15" x2="0.375" y2="-0.25" stroke-width="0.0096886" stroke-dasharray="0.05, 0.05"/>
-<line x1="0.325" y1="-0.25" x2="0.425" y2="-0.25" stroke-width="0.0096886" />
-<line x1="2.875" y1="-0.15" x2="2.875" y2="-0.25" stroke-width="0.0096886" stroke-dasharray="0.05, 0.05"/>
-<line x1="2.825" y1="-0.25" x2="2.925" y2="-0.25" stroke-width="0.0096886" />
-<line x1="5.375" y1="-0.15" x2="5.375" y2="-0.25" stroke-width="0.0096886" stroke-dasharray="0.05, 0.05"/>
-<line x1="5.325" y1="-0.25" x2="5.425" y2="-0.25" stroke-width="0.0096886" />
-<line x1="0.325" y1="-0.25" x2="0.325" y2="-0.5" stroke-width="0.0096886" />
-<line x1="0.425" y1="-0.25" x2="0.425" y2="-0.5" stroke-width="0.0096886" />
-<text transform="translate(0.037296,-0.70047) scale(0.0071487,-0.0071487) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" >concurrent</text>
-<polyline points="0.75,-0.5 0.75,-0.65 0.6,-0.8 0,-0.8 " stroke-width="0.0096886" />
-<line x1="0.435" y1="-1.05" x2="2.815" y2="-1.05" stroke-width="0.0096886" />
-<polygon points="2.715,-1.025 2.815,-1.05 2.715,-1.075 " stroke-width="0.0096886" fill="black" />
-<text transform="translate(1.2674,-1.0147) scale(0.0071487,-0.0071487) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" >read dlt645</text>
-<text transform="translate(1.6051,-1.1863) scale(0.0071487,-0.0071487) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" > </text>
-<line x1="2.815" y1="-1.3" x2="0.435" y2="-1.3" stroke-width="0.0096886" stroke-dasharray="0.05, 0.05"/>
-<polygon points="0.535,-1.325 0.435,-1.3 0.535,-1.275 " stroke-width="0.0096886" fill="black" />
-<text transform="translate(1.0926,-1.2647) scale(0.0071487,-0.0071487) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" >normal response</text>
-<text transform="translate(1.6051,-1.4363) scale(0.0071487,-0.0071487) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" > </text>
-<line x1="0.435" y1="-1.55" x2="5.315" y2="-1.55" stroke-width="0.0096886" />
-<polygon points="5.215,-1.525 5.315,-1.55 5.215,-1.575 " stroke-width="0.0096886" fill="black" />
-<text transform="translate(2.5612,-1.5147) scale(0.0071487,-0.0071487) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" >read dlms</text>
-<text transform="translate(2.8551,-1.6863) scale(0.0071487,-0.0071487) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" > </text>
-<line x1="2.815" y1="-1.8" x2="0.435" y2="-1.8" stroke-width="0.0096886" stroke-dasharray="0.05, 0.05"/>
-<polygon points="0.535,-1.825 0.435,-1.8 0.535,-1.775 " stroke-width="0.0096886" fill="black" />
-<text transform="translate(1.0926,-1.7647) scale(0.0071487,-0.0071487) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" >normal response</text>
-<text transform="translate(1.6051,-1.9363) scale(0.0071487,-0.0071487) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" > </text>
-<polyline points="0.435,-2.05 0.935,-2.05 0.935,-2.3 0.435,-2.3 " stroke-width="0.0096886" />
-<polygon points="0.535,-2.325 0.435,-2.3 0.535,-2.275 " stroke-width="0.0096886" fill="black" />
-<text transform="translate(0.435,-1.9681) scale(0.0071487,-0.0071487) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" >comm timeout dlt645 and dlms</text>
-<text transform="translate(0.41513,-2.1397) scale(0.0071487,-0.0071487) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" > </text>
-<text transform="translate(0.41513,-2.3113) scale(0.0071487,-0.0071487) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" > </text>
-<text transform="translate(0.41513,-2.4828) scale(0.0071487,-0.0071487) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" > </text>
-<rect x="0" y="-2.55" width="5.75" height="2.05" stroke-width="0.0096886" />
-<line x1="7.875" y1="-0.15" x2="7.875" y2="-2.55" stroke-width="0.0096886" stroke-dasharray="0.05, 0.05"/>
-<line x1="7.825" y1="-2.55" x2="7.925" y2="-2.55" stroke-width="0.0096886" />
-<polyline points="7.935,-2.8 8.435,-2.8 8.435,-3.05 7.935,-3.05 " stroke-width="0.0096886" />
-<polygon points="8.035,-3.075 7.935,-3.05 8.035,-3.025 " stroke-width="0.0096886" fill="black" />
-<text transform="translate(7.935,-2.7181) scale(0.0071487,-0.0071487) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" >recorded F11</text>
-<text transform="translate(7.9151,-2.8897) scale(0.0071487,-0.0071487) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" > </text>
-<text transform="translate(7.9151,-3.0613) scale(0.0071487,-0.0071487) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" > </text>
-<text transform="translate(7.9151,-3.2328) scale(0.0071487,-0.0071487) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" > </text>
-<line x1="7.825" y1="-2.55" x2="7.825" y2="-3.05" stroke-width="0.0096886" />
-<line x1="7.925" y1="-2.55" x2="7.925" y2="-3.05" stroke-width="0.0096886" />
-<line x1="7.825" y1="-3.05" x2="7.925" y2="-3.05" stroke-width="0.0096886" />
-<line x1="0.325" y1="-0.8" x2="0.325" y2="-3.05" stroke-width="0.0096886" />
-<line x1="0.425" y1="-0.8" x2="0.425" y2="-3.05" stroke-width="0.0096886" />
-<text transform="translate(0.037296,-3.2505) scale(0.0071487,-0.0071487) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" >concurrent</text>
-<polyline points="0.75,-3.05 0.75,-3.2 0.6,-3.35 0,-3.35 " stroke-width="0.0096886" />
-<line x1="0.435" y1="-3.6" x2="2.815" y2="-3.6" stroke-width="0.0096886" />
-<polygon points="2.715,-3.575 2.815,-3.6 2.715,-3.625 " stroke-width="0.0096886" fill="black" />
-<text transform="translate(1.2674,-3.5647) scale(0.0071487,-0.0071487) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" >read dlt645</text>
-<text transform="translate(1.6051,-3.7363) scale(0.0071487,-0.0071487) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" > </text>
-<line x1="2.815" y1="-3.85" x2="0.435" y2="-3.85" stroke-width="0.0096886" stroke-dasharray="0.05, 0.05"/>
-<polygon points="0.535,-3.875 0.435,-3.85 0.535,-3.825 " stroke-width="0.0096886" fill="black" />
-<text transform="translate(1.0926,-3.8147) scale(0.0071487,-0.0071487) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" >normal response</text>
-<text transform="translate(1.6051,-3.9863) scale(0.0071487,-0.0071487) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" > </text>
-<line x1="0.435" y1="-4.1" x2="5.315" y2="-4.1" stroke-width="0.0096886" />
-<polygon points="5.215,-4.075 5.315,-4.1 5.215,-4.125 " stroke-width="0.0096886" fill="black" />
-<text transform="translate(2.5612,-4.0647) scale(0.0071487,-0.0071487) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" >read dlms</text>
-<text transform="translate(2.8551,-4.2363) scale(0.0071487,-0.0071487) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" > </text>
-<line x1="2.815" y1="-4.35" x2="0.435" y2="-4.35" stroke-width="0.0096886" stroke-dasharray="0.05, 0.05"/>
-<polygon points="0.535,-4.375 0.435,-4.35 0.535,-4.325 " stroke-width="0.0096886" fill="black" />
-<text transform="translate(1.0926,-4.3147) scale(0.0071487,-0.0071487) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" >normal response</text>
-<text transform="translate(1.6051,-4.4863) scale(0.0071487,-0.0071487) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" > </text>
-<rect x="0" y="-4.35" width="5.75" height="1.3" stroke-width="0.0096886" />
-<line x1="0.325" y1="-3.35" x2="0.325" y2="-4.85" stroke-width="0.0096886" />
-<line x1="0.425" y1="-3.35" x2="0.425" y2="-4.85" stroke-width="0.0096886" />
-<line x1="0.325" y1="-4.85" x2="0.425" y2="-4.85" stroke-width="0.0096886" />
-<line x1="2.825" y1="-0.25" x2="2.825" y2="-4.85" stroke-width="0.0096886" />
-<line x1="2.925" y1="-0.25" x2="2.925" y2="-4.85" stroke-width="0.0096886" />
-<line x1="2.825" y1="-4.85" x2="2.925" y2="-4.85" stroke-width="0.0096886" />
-<line x1="5.325" y1="-0.25" x2="5.325" y2="-4.85" stroke-width="0.0096886" />
-<line x1="5.425" y1="-0.25" x2="5.425" y2="-4.85" stroke-width="0.0096886" />
-<line x1="5.325" y1="-4.85" x2="5.425" y2="-4.85" stroke-width="0.0096886" />
-<line x1="7.875" y1="-3.05" x2="7.875" y2="-4.85" stroke-width="0.0096886" stroke-dasharray="0.05, 0.05"/>
-<line x1="7.775" y1="-4.85" x2="7.875" y2="-4.85" stroke-width="0.0096886" />
+<g id="content" transform="translate(0.10938,0.18125) scale(1,-1) scale(0.125) " xml:space="preserve" stroke="black" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10.433" stroke-dasharray="none" stroke-dashoffset="0" stroke-opacity="1" fill="none" fill-rule="evenodd" fill-opacity="1" font-style="normal" font-variant="normal" font-weight="normal" font-stretch="normal" font-size-adjust="none" letter-spacing="normal" word-spacing="normal" text-anchor="start">
+<rect x="0" y="-0.15" width="0.75" height="0.3" stroke-width="0.0094118" />
+<text transform="translate(0.20139,-0.049028) scale(1,-1) scale(0.0069444) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" >FFC3</text>
+<line x1="0.1" y1="-0.07" x2="0.65" y2="-0.07" stroke-width="0.0094118" />
+<rect x="2.5" y="-0.15" width="0.75" height="0.3" stroke-width="0.0094118" />
+<text transform="translate(2.5547,-0.049028) scale(1,-1) scale(0.0069444) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" >CU Dlt645</text>
+<line x1="2.6" y1="-0.07" x2="3.15" y2="-0.07" stroke-width="0.0094118" />
+<rect x="3.75" y="-0.15" width="0.75" height="0.3" stroke-width="0.0094118" />
+<text transform="translate(3.8473,-0.049028) scale(1,-1) scale(0.0069444) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" >CU Dlms</text>
+<line x1="3.85" y1="-0.07" x2="4.4" y2="-0.07" stroke-width="0.0094118" />
+<rect x="5" y="-0.15" width="0.75" height="0.3" stroke-width="0.0094118" />
+<text transform="translate(5.0314,-0.049028) scale(1,-1) scale(0.0069444) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" >E650/E850</text>
+<line x1="5.1" y1="-0.07" x2="5.65" y2="-0.07" stroke-width="0.0094118" />
+<line x1="0.375" y1="-0.15" x2="0.375" y2="-0.25" stroke-width="0.0094118" stroke-dasharray="0.05, 0.05"/>
+<line x1="0.325" y1="-0.25" x2="0.425" y2="-0.25" stroke-width="0.0094118" />
+<line x1="2.875" y1="-0.15" x2="2.875" y2="-0.25" stroke-width="0.0094118" stroke-dasharray="0.05, 0.05"/>
+<line x1="2.825" y1="-0.25" x2="2.925" y2="-0.25" stroke-width="0.0094118" />
+<line x1="4.125" y1="-0.15" x2="4.125" y2="-0.25" stroke-width="0.0094118" stroke-dasharray="0.05, 0.05"/>
+<line x1="4.075" y1="-0.25" x2="4.175" y2="-0.25" stroke-width="0.0094118" />
+<line x1="0.435" y1="-0.75" x2="2.815" y2="-0.75" stroke-width="0.0094118" />
+<polygon points="2.715,-0.725 2.815,-0.75 2.715,-0.775 " stroke-width="0.0094118" fill="black" />
+<text transform="translate(1.2776,-0.71569) scale(1,-1) scale(0.0069444) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" >dlt645 read</text>
+<text transform="translate(1.6057,-0.88236) scale(1,-1) scale(0.0069444) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" > </text>
+<line x1="2.815" y1="-1" x2="0.435" y2="-1" stroke-width="0.0094118" stroke-dasharray="0.05, 0.05"/>
+<polygon points="0.535,-1.025 0.435,-1 0.535,-0.975 " stroke-width="0.0094118" fill="black" />
+<text transform="translate(1.1078,-0.96569) scale(1,-1) scale(0.0069444) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" >normal response</text>
+<text transform="translate(1.6057,-1.1324) scale(1,-1) scale(0.0069444) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" > </text>
+<line x1="0.435" y1="-1.25" x2="4.065" y2="-1.25" stroke-width="0.0094118" />
+<polygon points="3.965,-1.225 4.065,-1.25 3.965,-1.275 " stroke-width="0.0094118" fill="black" />
+<text transform="translate(1.9451,-1.2157) scale(1,-1) scale(0.0069444) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" >dlms read</text>
+<text transform="translate(2.2307,-1.3824) scale(1,-1) scale(0.0069444) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" > </text>
+<line x1="2.815" y1="-1.5" x2="0.435" y2="-1.5" stroke-width="0.0094118" stroke-dasharray="0.05, 0.05"/>
+<polygon points="0.535,-1.525 0.435,-1.5 0.535,-1.475 " stroke-width="0.0094118" fill="black" />
+<text transform="translate(1.1078,-1.4657) scale(1,-1) scale(0.0069444) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" >normal response</text>
+<text transform="translate(1.6057,-1.6324) scale(1,-1) scale(0.0069444) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" > </text>
+<line x1="0.435" y1="-1.75" x2="2.815" y2="-1.75" stroke-width="0.0094118" />
+<polygon points="2.715,-1.725 2.815,-1.75 2.715,-1.775 " stroke-width="0.0094118" fill="black" />
+<text transform="translate(1.2776,-1.7157) scale(1,-1) scale(0.0069444) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" >dlt645 read</text>
+<text transform="translate(1.6057,-1.8824) scale(1,-1) scale(0.0069444) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" > </text>
+<polyline points="0.435,-2 0.935,-2 0.935,-2.25 0.435,-2.25 " stroke-width="0.0094118" />
+<polygon points="0.535,-2.275 0.435,-2.25 0.535,-2.225 " stroke-width="0.0094118" fill="black" />
+<text transform="translate(0.435,-1.924) scale(1,-1) scale(0.0069444) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" >timeout</text>
+<text transform="translate(0.41569,-2.0907) scale(1,-1) scale(0.0069444) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" > </text>
+<text transform="translate(0.41569,-2.2574) scale(1,-1) scale(0.0069444) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" > </text>
+<text transform="translate(0.41569,-2.424) scale(1,-1) scale(0.0069444) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" > </text>
+<line x1="0.435" y1="-2.5" x2="4.065" y2="-2.5" stroke-width="0.0094118" />
+<polygon points="3.965,-2.475 4.065,-2.5 3.965,-2.525 " stroke-width="0.0094118" fill="black" />
+<text transform="translate(1.9451,-2.4657) scale(1,-1) scale(0.0069444) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" >dlms read</text>
+<text transform="translate(2.2307,-2.6324) scale(1,-1) scale(0.0069444) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" > </text>
+<polyline points="0.435,-2.75 0.935,-2.75 0.935,-3 0.435,-3 " stroke-width="0.0094118" />
+<polygon points="0.535,-3.025 0.435,-3 0.535,-2.975 " stroke-width="0.0094118" fill="black" />
+<text transform="translate(0.435,-2.674) scale(1,-1) scale(0.0069444) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" >timeout</text>
+<text transform="translate(0.41569,-2.8407) scale(1,-1) scale(0.0069444) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" > </text>
+<text transform="translate(0.41569,-3.0074) scale(1,-1) scale(0.0069444) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" > </text>
+<text transform="translate(0.41569,-3.174) scale(1,-1) scale(0.0069444) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" > </text>
+<line x1="0.375" y1="-3.5" x2="0.875" y2="-3.5" stroke-width="0.0094118" stroke-dasharray="0.05, 0.05"/>
+<text transform="translate(1.0442,-3.549) scale(1,-1) scale(0.0069444) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" >comm blocked ~2s</text>
+<polygon points="0.875,-3.25 2.275,-3.25 2.375,-3.35 2.375,-3.75 0.875,-3.75 " stroke-width="0.0094118" />
+<polyline points="2.275,-3.25 2.275,-3.35 2.375,-3.35 " stroke-width="0.0094118" />
+<line x1="5.375" y1="-0.15" x2="5.375" y2="-3.5" stroke-width="0.0094118" stroke-dasharray="0.05, 0.05"/>
+<line x1="5.325" y1="-3.5" x2="5.425" y2="-3.5" stroke-width="0.0094118" />
+<polyline points="5.435,-3.75 5.935,-3.75 5.935,-4 5.435,-4 " stroke-width="0.0094118" />
+<polygon points="5.535,-4.025 5.435,-4 5.535,-3.975 " stroke-width="0.0094118" fill="black" />
+<text transform="translate(5.435,-3.674) scale(1,-1) scale(0.0069444) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" >recorded F11</text>
+<text transform="translate(5.4157,-3.8407) scale(1,-1) scale(0.0069444) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" > </text>
+<text transform="translate(5.4157,-4.0074) scale(1,-1) scale(0.0069444) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" > </text>
+<text transform="translate(5.4157,-4.174) scale(1,-1) scale(0.0069444) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" > </text>
+<line x1="5.325" y1="-3.5" x2="5.325" y2="-4" stroke-width="0.0094118" />
+<line x1="5.425" y1="-3.5" x2="5.425" y2="-4" stroke-width="0.0094118" />
+<line x1="5.325" y1="-4" x2="5.425" y2="-4" stroke-width="0.0094118" />
+<line x1="0.435" y1="-4.25" x2="2.815" y2="-4.25" stroke-width="0.0094118" />
+<polygon points="2.715,-4.225 2.815,-4.25 2.715,-4.275 " stroke-width="0.0094118" fill="black" />
+<text transform="translate(1.2776,-4.2157) scale(1,-1) scale(0.0069444) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" >dlt645 read</text>
+<text transform="translate(1.6057,-4.3824) scale(1,-1) scale(0.0069444) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" > </text>
+<line x1="2.815" y1="-4.5" x2="0.435" y2="-4.5" stroke-width="0.0094118" stroke-dasharray="0.05, 0.05"/>
+<polygon points="0.535,-4.525 0.435,-4.5 0.535,-4.475 " stroke-width="0.0094118" fill="black" />
+<text transform="translate(1.1078,-4.4657) scale(1,-1) scale(0.0069444) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" >normal response</text>
+<text transform="translate(1.6057,-4.6324) scale(1,-1) scale(0.0069444) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" > </text>
+<line x1="0.435" y1="-4.75" x2="4.065" y2="-4.75" stroke-width="0.0094118" />
+<polygon points="3.965,-4.725 4.065,-4.75 3.965,-4.775 " stroke-width="0.0094118" fill="black" />
+<text transform="translate(1.7715,-4.7157) scale(1,-1) scale(0.0069444) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" >send HDLC.RR</text>
+<text transform="translate(2.2307,-4.8824) scale(1,-1) scale(0.0069444) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" > </text>
+<line x1="4.065" y1="-5" x2="0.435" y2="-5" stroke-width="0.0094118" stroke-dasharray="0.05, 0.05"/>
+<polygon points="0.535,-5.025 0.435,-5 0.535,-4.975 " stroke-width="0.0094118" fill="black" />
+<text transform="translate(1.9337,-4.9657) scale(1,-1) scale(0.0069444) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" >HDLC.DM</text>
+<text transform="translate(2.2307,-5.1324) scale(1,-1) scale(0.0069444) " font-family="Helvetica,sans-serif" font-size="20px" stroke="none" fill="black" > </text>
+<line x1="0.325" y1="-0.25" x2="0.325" y2="-5.25" stroke-width="0.0094118" />
+<line x1="0.425" y1="-0.25" x2="0.425" y2="-5.25" stroke-width="0.0094118" />
+<line x1="0.325" y1="-5.25" x2="0.425" y2="-5.25" stroke-width="0.0094118" />
+<line x1="2.825" y1="-0.25" x2="2.825" y2="-5.25" stroke-width="0.0094118" />
+<line x1="2.925" y1="-0.25" x2="2.925" y2="-5.25" stroke-width="0.0094118" />
+<line x1="2.825" y1="-5.25" x2="2.925" y2="-5.25" stroke-width="0.0094118" />
+<line x1="4.075" y1="-0.25" x2="4.075" y2="-5.25" stroke-width="0.0094118" />
+<line x1="4.175" y1="-0.25" x2="4.175" y2="-5.25" stroke-width="0.0094118" />
+<line x1="4.075" y1="-5.25" x2="4.175" y2="-5.25" stroke-width="0.0094118" />
+<line x1="5.375" y1="-4" x2="5.375" y2="-5.25" stroke-width="0.0094118" stroke-dasharray="0.05, 0.05"/>
 </g>
 </svg>
