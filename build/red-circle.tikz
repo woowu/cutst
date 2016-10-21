@@ -1,0 +1,4 @@
+\begin{tikzpicture}
+  \fill[red!50] (0cm, 0cm) circle [radius=3pt];
+\end{tikzpicture}
+

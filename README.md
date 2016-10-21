@@ -17,7 +17,6 @@ CU-Z62 Q189-F11 Testing
 
 ![fixture](https://woowu.github.io/cutst/fixture.svg)
 
-
 ## Test Programs 
 
 dlt645tst
@@ -51,13 +50,13 @@ a corrupted DLMS apdu encapsulated in a valid HDLC frame.
 This *possibly* means meter DLMS tx buffer damaged. Below
 are detail log locations:
 
-| Meter         | Log              | Excerpt                                         |
-|---------------|------------------|-------------------------------------------------|
-| E850#51510663 | 2023.log:1596    | [excerpt](log-excerpt/2023-1096_2096.log)       |                                                |
-| E850#51510663 | 2023.log:1434241 | [excerpt](log-excerpt/2023-1433741_1434741.log) |                                            |
-| E850#51510663 | 2033.log:1004146 | [excerpt](log-excerpt/2033-1003646_1004646.log) |
-| E650#37102084 | 2035.log:1830091 | [excerpt](log-excerpt/2035.log.1830091) |
-| E850#51510663 | 2033.log:1779813 ||                                            |
+| Fixture            | Meter         | Log              | |
+|--------------------|---------------|------------------|-------------------------------------------------|
+|![](blue-circle.png)| E850#51510663 | 2023.log:1596    | [excerpt](log-excerpt/2023-1096_2096.log)       |                                                |
+|![](blue-circle.png)| E850#51510663 | 2023.log:1434241 | [excerpt](log-excerpt/2023-1433741_1434741.log) |                                            |
+|![](blue-circle.png)| E850#51510663 | 2033.log:1004146 | [excerpt](log-excerpt/2033-1003646_1004646.log) |
+|![](red-circle.png) | E650#37102084 | 2035.log:1830091 | [excerpt](log-excerpt/2035.log.1830091) |
+|![](blue-circle.png)| E850#51510663 | 2033.log:1779813 ||                                            |
 
 ![seq-diagram](https://woowu.github.io/cutst/bad-dlms-apdu-seq.svg)
 
@@ -71,27 +70,27 @@ ports.
 ![f11 pattern](https://woowu.github.io/cutst/f11-observation.svg)
 
 ### Detail logs
-- E650#37102083: 2016-10-17 17:45:28 (Unix time: 1476697528)
+1. ![](red-circle.png) E650#37102083: 2016-10-17 17:45:28 (Unix time: 1476697528)
 ![setup-1](/setup-1.png)
     - 2011.log:249725 dl645 timeout [exerpt](log-excerpt/2011.log.249725)
     - 2012.log:170592 dlms timeout, then send DM after several secs [exerpt](log-excerpt/2012.log.170592)
-- E650#37102084: 2016-10-18 19:53:27 (Unix time: 1476791607) 
+2. ![](red-circle.png) E650#37102084: 2016-10-18 19:53:27 (Unix time: 1476791607) 
 ![setup-1](/setup-1.png)
     - 2020.log:302470 dl645 timeout [exerpt](log-excerpt/2020.log.302470)
     - 2022.log:333367 dlms timeout, then send DM after several secs [exerpt](log-excerpt/2022.log.333367)
-- E850#51510663: 2016-10-18 23:01:41 (Unix time: 1476802901)
+3. ![](blue-circle.png) E850#51510663: 2016-10-18 23:01:41 (Unix time: 1476802901)
 ![setup-2](/setup-2.png)
     - 2021.log:452403 dl645 timeout [exerpt](log-excerpt/2021.log.452403)
     - 2023.log:634572 dlms timeout, then send DM after several secs [exerpt](log-excerpt/2023.log.634572)
 
 # Open Points
 
-- Why CU-Z62's SPI has its MISO pin as high level when in idle mode?
+1. [ ] Why CU-Z62's SPI has its MISO pin as high level when in idle mode?
     - It *probably* due to some incorrectly setting of the M16C SI/O
     registers, also *possibly* due to MISO need to keep its last data
     for half-clock time. It need to read more M16C documents to 
     understand it.
-- Why CU-Z62's SPI has only half speed comparing to CU-U52 and CU-B4 ?
+2. [ ] Why CU-Z62's SPI has only half speed comparing to CU-U52 and CU-B4 ?
     - Woody ask: What is the MCU running speed of CU-U52 and CU-B4 ?
     - Woody ask: Can I get a full timing capture of the S0 communication
     instance? The previous one is not set in the same time scale for CU-Z62
@@ -99,6 +98,6 @@ ports.
     is used.
     - Woody plan to draw a timing and state-machine diagram for the behavior
     of CU-Z62's MCO/SPI module.
-- How CU-Z62 protect its four app task from race conditions?
+3. [ ] How CU-Z62 protect its four app task from race conditions?
     - This is important. But yet to study.
 
