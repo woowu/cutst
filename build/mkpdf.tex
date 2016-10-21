@@ -1,7 +1,10 @@
 \documentclass{standalone}
 \usepackage{graphics}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, shadows, shapes, fit, positioning, calc}
+\tikzset{help lines/.style={very thine, gray}}
 
 \begin{document}
-\includegraphics{f11-observation.eps}
+\input{fixture.tikz}
 \end{document}
 
