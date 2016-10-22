@@ -31,11 +31,9 @@ for i in `seq $iterations`; do
     now=`date +%s`
     t=`expr $now / $period \* $period`
     270 -L $com_no $meter_no $baud_idx $t 1
-    if [[ $? -eq 0 ]]; then
-        sleep 3
-    else
+    if [[ $? -ne 0 ]]; then
         echo "ERR: xdlms error, exit code = $?"
-        sleep 200
+        sleep 130
     fi
 done
 

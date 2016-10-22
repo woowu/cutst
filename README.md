@@ -57,6 +57,7 @@ are detail log locations:
 |![](blue-circle.png)| E850#51510663 | 2033.log:1004146 | [excerpt](log-excerpt/2033-1003646_1004646.log) |
 |![](red-circle.png) | E650#37102084 | 2035.log:1830091 | [excerpt](log-excerpt/2035.log.1830091) |
 |![](blue-circle.png)| E850#51510663 | 2033.log:1779813 ||                                            |
+|![](blue-circle.png)| E850#51510663 | 2033.log:4552607 ||                                            |
 
 ![seq-diagram](https://woowu.github.io/cutst/bad-dlms-apdu-seq.svg)
 
