@@ -12,10 +12,10 @@ CU-Z62 Q189-F11 Testing
 
 ## Using FFC3
 
-![ATS-Front](/q189-ats-front.png)
-![ATS-Back](/q189-ats-back.png)
+![](pic/q189-ats-front.png)
+![](pic/q189-ats-back.png)
 
-![fixture](https://woowu.github.io/cutst/fixture.svg)
+<img src="https://woowu.github.io/cutst/pic/fixture.svg" width="350"/>
 
 ## Test Programs 
 
@@ -52,14 +52,14 @@ are detail log locations:
 
 | Fixture            | Meter         | Log              | |
 |--------------------|---------------|------------------|-------------------------------------------------|
-|![](blue-circle.png)| E850#51510663 | 2023.log:1596    | [excerpt](log-excerpt/2023-1096_2096.log)       |                                                |
-|![](blue-circle.png)| E850#51510663 | 2023.log:1434241 | [excerpt](log-excerpt/2023-1433741_1434741.log) |                                            |
-|![](blue-circle.png)| E850#51510663 | 2033.log:1004146 | [excerpt](log-excerpt/2033-1003646_1004646.log) |
-|![](red-circle.png) | E650#37102084 | 2035.log:1830091 | [excerpt](log-excerpt/2035.log.1830091) |
-|![](blue-circle.png)| E850#51510663 | 2033.log:1779813 ||                                            |
-|![](blue-circle.png)| E850#51510663 | 2033.log:4552607 ||                                            |
+|![](pic/blue-circle.png)| E850#51510663 | 2023.log:1596    | [excerpt](log-excerpt/2023-1096_2096.log)       |                                                |
+|![](pic/blue-circle.png)| E850#51510663 | 2023.log:1434241 | [excerpt](log-excerpt/2023-1433741_1434741.log) |                                            |
+|![](pic/blue-circle.png)| E850#51510663 | 2033.log:1004146 | [excerpt](log-excerpt/2033-1003646_1004646.log) |
+|![](pic/red-circle.png) | E650#37102084 | 2035.log:1830091 | [excerpt](log-excerpt/2035.log.1830091) |
+|![](pic/blue-circle.png)| E850#51510663 | 2033.log:1779813 ||                                            |
+|![](pic/blue-circle.png)| E850#51510663 | 2033.log:4552607 ||                                            |
 
-![seq-diagram](https://woowu.github.io/cutst/bad-dlms-apdu-seq.svg)
+![seq-diagram](https://woowu.github.io/cutst/pic/bad-dlms-apdu-seq.svg)
 
 By far, this kind of traffics were observed only in CU's 
 DLMS RS485 ports, *not yet* observed in base meter's RS485
@@ -68,19 +68,19 @@ ports.
 ## F11 Occurences
 
 ### Observed patterns:
-![f11 pattern](https://woowu.github.io/cutst/f11-observation.svg)
+![f11 pattern](https://woowu.github.io/cutst/pic/f11-observation.svg)
 
 ### Detail logs
 1. ![](red-circle.png) E650#37102083: 2016-10-17 17:45:28 (Unix time: 1476697528)
-![setup-1](/setup-1.png)
+![](pic/setup-1.png)
     - 2011.log:249725 dl645 timeout [exerpt](log-excerpt/2011.log.249725)
     - 2012.log:170592 dlms timeout, then send DM after several secs [exerpt](log-excerpt/2012.log.170592)
 2. ![](red-circle.png) E650#37102084: 2016-10-18 19:53:27 (Unix time: 1476791607) 
-![setup-1](/setup-1.png)
+![](pic/setup-1.png)
     - 2020.log:302470 dl645 timeout [exerpt](log-excerpt/2020.log.302470)
     - 2022.log:333367 dlms timeout, then send DM after several secs [exerpt](log-excerpt/2022.log.333367)
 3. ![](blue-circle.png) E850#51510663: 2016-10-18 23:01:41 (Unix time: 1476802901)
-![setup-2](/setup-2.png)
+![](pic/setup-2.png)
     - 2021.log:452403 dl645 timeout [exerpt](log-excerpt/2021.log.452403)
     - 2023.log:634572 dlms timeout, then send DM after several secs [exerpt](log-excerpt/2023.log.634572)
 

@@ -10,6 +10,7 @@ rundlms.sh 3 $iterations 2>&1 | nc $server 2031 &
 echo "E850 51510663 dlt645->cu, dlms->cu"
 rundlt645.sh /dev/tts6 51510663 weisheng $iterations 2>&1 | nc $server 2032 &
 rundlms.sh 2 $iterations 2>&1 | nc $server 2033 &
+# xdlms addr 7421
 
 echo "E650 37102084 dlt645->cu, dlms->cu"
 rundlt645.sh /dev/tts4 37102084 weisheng $iterations 2>&1 | nc $server 2034 &

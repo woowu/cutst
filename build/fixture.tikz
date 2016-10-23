@@ -1,11 +1,13 @@
 \begin{tikzpicture}[%
     >=Stealth,
     node distance=0cm,
-    dev/.style={draw, fill=white, thick, minimum width=2.265cm,
-      minimum height=1.4cm},
-      proto/.style={pos=0.4, sloped, below, font={\small\it}}
+    dev/.style={draw, fill=white, thick, font={\large\bf}
+      , minimum width=2.265cm
+      , minimum height=1.4cm}
+      , proto/.style={pos=0.4, sloped, below, font={\small\it}}
     ]
-  \node[dev, rounded corners] at (0cm, 0cm) (cu) {CU-Z62};
+  \node[dev, rounded corners, drop shadow={opacity=0.3}] at (0cm, 0cm)
+    (cu) {CU-Z62};
   \begin{scope}[node distance=.3cm and .1cm
     , every node/.style={drop shadow={opacity=1}}
     ]
