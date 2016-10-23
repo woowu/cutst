@@ -71,15 +71,15 @@ ports.
 ![f11 pattern](https://woowu.github.io/cutst/pic/f11-observation.svg)
 
 ### Detail logs
-1. ![](red-circle.png) E650#37102083: 2016-10-17 17:45:28 (Unix time: 1476697528)
+1. ![](pic/red-circle.png) E650#37102083: 2016-10-17 17:45:28 (Unix time: 1476697528)
 ![](pic/setup-1.png)
     - 2011.log:249725 dl645 timeout [exerpt](log-excerpt/2011.log.249725)
     - 2012.log:170592 dlms timeout, then send DM after several secs [exerpt](log-excerpt/2012.log.170592)
-2. ![](red-circle.png) E650#37102084: 2016-10-18 19:53:27 (Unix time: 1476791607) 
+2. ![](pic/red-circle.png) E650#37102084: 2016-10-18 19:53:27 (Unix time: 1476791607) 
 ![](pic/setup-1.png)
     - 2020.log:302470 dl645 timeout [exerpt](log-excerpt/2020.log.302470)
     - 2022.log:333367 dlms timeout, then send DM after several secs [exerpt](log-excerpt/2022.log.333367)
-3. ![](blue-circle.png) E850#51510663: 2016-10-18 23:01:41 (Unix time: 1476802901)
+3. ![](pic/blue-circle.png) E850#51510663: 2016-10-18 23:01:41 (Unix time: 1476802901)
 ![](pic/setup-2.png)
     - 2021.log:452403 dl645 timeout [exerpt](log-excerpt/2021.log.452403)
     - 2023.log:634572 dlms timeout, then send DM after several secs [exerpt](log-excerpt/2023.log.634572)
