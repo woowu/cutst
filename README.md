@@ -67,10 +67,9 @@ ports.
 
 ## F11 Occurences
 
-### Observed patterns:
+### Communication Failure Pattern (CFP):
 ![f11 pattern](https://woowu.github.io/cutst/pic/f11-observation.svg)
 
-### Detail logs
 1. ![](pic/red-circle.png) E650#37102083: 2016-10-17 17:45:28 (Unix time: 1476697528)
 ![](pic/setup-1.png)
     - 2011.log:249725 dl645 timeout [exerpt](log-excerpt/2011.log.249725)
@@ -83,6 +82,28 @@ ports.
 ![](pic/setup-2.png)
     - 2021.log:452403 dl645 timeout [exerpt](log-excerpt/2021.log.452403)
     - 2023.log:634572 dlms timeout, then send DM after several secs [exerpt](log-excerpt/2023.log.634572)
+
+### Communication Failure W/O F11
+
+It was observed there exists exactly same CFP as above, but no
+a F11 found in meter:
+
+- ![](pic/blue-circle.png) E850#51510663
+
+    |time                   | dlms log                  | dl645 log           |
+    |-----------------------|---------------------------|---------------------|
+    |16-10-20 15:12:06 +8s  | [2033.log:2046807](log-excerpt/2033:2046807.log) | [2032.log:966002](log-excerpt/2032:966002.log)   |
+    |16-10-21 19:02:19 +16s | [2033.log:4573240](log-excerpt/2033:4573240.log) | [2032.log:2147824](log-excerpt/2032:4573240.log) |
+    |16-10-22 03:00:27 +16s | [2033.log:5363596](log-excerpt/2033:5363596.log) | [2032.log:2474030](log-excerpt/2032:5363596.log) |
+
+- ![](pic/red-circle.png) E650#37102084 (Red)
+
+    |time                   | dlms log                  | dl645 log           |
+    |-----------------------|---------------------------|---------------------|
+    |16-10-21 08:46:59 +16s | [2035.log:3711512](log-excerpt/2035:3711512.log) | [2034.log:1750664](log-excerpt/2034:1750664.log) |
+    |16-10-21 15:42:20 +8s  | [2035.log:4350909](log-excerpt/2035:4350909.log) | [2034.log:2051204](log-excerpt/2034:2051204.log)|
+    |16-10-22 08:57:42 +16s | [2035.log:6146271](log-excerpt/2035:6146271.log) | [2034.log:2767292](log-excerpt/2034:2767292.log)|
+    |16-10-22 13:54:49 +16s | [2035.log:6713299](log-excerpt/2035:6713299.log) | [2034.log:2963941](log-excerpt/2034:2963941.log)|
 
 # Open Points
 
@@ -101,4 +122,6 @@ ports.
     of CU-Z62's MCO/SPI module.
 3. [ ] How CU-Z62 protect its four app task from race conditions?
     - This is important. But yet to study.
+4. [ ] In what situation, a CU can be reset by meter?
+5. [ ] How the corrupted DLMS Apdu was generated? By CU or by meter?
 
