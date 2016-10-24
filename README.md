@@ -31,21 +31,6 @@ xdlms
 : FFC3 meter reading program that talks DLMS protocol with meter/cu. It
 read meter registers, profiles, events and clock
 
-## Test Log Files
-
-- 2011.log: dlt645tst
-- 2012.log: xdlms
-- 2020.log: dlt645tst
-- 2021.log: dlt645tst
-- 2022.log: xdlms
-- 2023.log: xdlms
-- 2030.log: dlt645tst
-- 2031.log: xdlms
-- 2032.log: dlt645tst
-- 3033.log: xdlms
-- 3034.log: dlt645tst
-- 3035.log: xdlms
-
 # Test Findings
 ## Bad DLMS APDU
 
@@ -54,14 +39,14 @@ a corrupted DLMS apdu encapsulated in a valid HDLC frame.
 This *possibly* means meter DLMS tx buffer damaged. Below
 are detail log locations:
 
-| Fixture            | Meter         | Log              | |
-|--------------------|---------------|------------------|-------------------------------------------------|
-|![](pic/blue-circle.png)| E850#51510663 | 2023.log:1596    | [excerpt](log-excerpt/2023-1096_2096.log)       |                                                |
-|![](pic/blue-circle.png)| E850#51510663 | 2023.log:1434241 | [excerpt](log-excerpt/2023-1433741_1434741.log) |                                            |
-|![](pic/blue-circle.png)| E850#51510663 | 2033.log:1004146 | [excerpt](log-excerpt/2033-1003646_1004646.log) |
-|![](pic/red-circle.png) | E650#37102084 | 2035.log:1830091 | [excerpt](log-excerpt/2035.log.1830091) |
-|![](pic/blue-circle.png)| E850#51510663 | 2033.log:1779813 ||                                            |
-|![](pic/blue-circle.png)| E850#51510663 | 2033.log:4552607 ||                                            |
+| Fixture            | Meter         | Log              |
+|--------------------|---------------|------------------|
+|![](pic/blue-circle.png)| E850#51510663 | [2023.log:1596](log-excerpt/2023-1096_2096.log)       |                                                |
+|![](pic/blue-circle.png)| E850#51510663 | [2023.log:1434241](log-excerpt/2023-1433741_1434741.log) |                                            |
+|![](pic/blue-circle.png)| E850#51510663 | [2033.log:1004146](log-excerpt/2033-1003646_1004646.log) |
+|![](pic/red-circle.png) | E650#37102084 | [2035.log:1830091](log-excerpt/2035.log.1830091) |
+|![](pic/blue-circle.png)| E850#51510663 | 2033.log:1779813 |
+|![](pic/blue-circle.png)| E850#51510663 | 2033.log:4552607 |
 
 ![seq-diagram](https://woowu.github.io/cutst/pic/bad-dlms-apdu-seq.svg)
 
