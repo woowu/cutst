@@ -17,6 +17,10 @@ CU-Z62 Q189-F11 Testing
 
 <img src="https://woowu.github.io/cutst/pic/fixture.svg" width="350"/>
 
+| Setup  | Wiring                   | Setup | Wiring | Setup | Wiring |
+|--------|--------------------------|-------|--------|-------|--------|
+| Red    | <img src="pic/setup-red.jpg" width="80"/>  | Blue | <img src="pic/setup-blue.jpg" width="80"/>  | Green | <img src="pic/setup-green.jpg" width="80"/> | 
+
 ## Test Programs 
 
 dlt645tst
@@ -70,22 +74,29 @@ ports.
 ### Communication Failure Pattern (CFP):
 ![f11 pattern](https://woowu.github.io/cutst/pic/f11-observation.svg)
 
-1. ![](pic/red-circle.png) E650#37102083: 2016-10-17 17:45:28 (Unix time: 1476697528)
-![](pic/setup-1.png)
-    - 2011.log:249725 dl645 timeout [exerpt](log-excerpt/2011.log.249725)
-    - 2012.log:170592 dlms timeout, then send DM after several secs [exerpt](log-excerpt/2012.log.170592)
-2. ![](pic/red-circle.png) E650#37102084: 2016-10-18 19:53:27 (Unix time: 1476791607) 
-![](pic/setup-1.png)
-    - 2020.log:302470 dl645 timeout [exerpt](log-excerpt/2020.log.302470)
-    - 2022.log:333367 dlms timeout, then send DM after several secs [exerpt](log-excerpt/2022.log.333367)
-3. ![](pic/blue-circle.png) E850#51510663: 2016-10-18 23:01:41 (Unix time: 1476802901)
-![](pic/setup-2.png)
-    - 2021.log:452403 dl645 timeout [exerpt](log-excerpt/2021.log.452403)
-    - 2023.log:634572 dlms timeout, then send DM after several secs [exerpt](log-excerpt/2023.log.634572)
+- ![](pic/red-circle.png) E650#37102083
+
+    |time                           | dlms log                                            | dl645 log                                        |
+    |-------------------------------|-----------------------------------------------------|--------------------------------------------------|
+    |16-10-17 17:45:28 (1476697528) | [2012.log:170592 dlms](log-excerpt/2012.log.170592) | [2011.log:249725](log-excerpt/2011.log.249725)   |
+
+- ![](pic/red-circle.png) E650#37102084
+
+    |time                           | dlms log                                            | dl645 log                                        |
+    |-------------------------------|-----------------------------------------------------|--------------------------------------------------|
+    |16-10-18 19:53:27 (1476791607) | [2022.log:333367](log-excerpt/2022.log.333367)      | [2020.log:302470](log-excerpt/2020.log.302470)   |
+
+- ![](pic/blue-circle.png) E850#51510663
+
+    |time                           | dlms log                                            | dl645 log                                        |
+    |-------------------------------|-----------------------------------------------------|--------------------------------------------------|
+    |16-10-18 23:01:41 (1476802901) | [2023.log:634572](log-excerpt/2023.log.634572)      | [2021.log:452403](log-excerpt/2021.log.452403)   |
+    |16-10-23 03:04:18 +8s          | [2033.log:8090927](log-excerpt/2033:8090927.log)    | [2032.log:3407353](log-excerpt/2032:3407353.log) |
+    |16-10-24 01:13:11 +9s          | [2033.log:10614842](log-excerpt/2033:10614842.log)  | [2032.log:4265436](log-excerpt/2032:4265436.log) |
 
 ### Communication Failure W/O F11
 
-It was observed there exists exactly same CFP as above, but no
+It was observed there exists exactly same CFP as above, but **no**
 a F11 found in meter:
 
 - ![](pic/blue-circle.png) E850#51510663
@@ -95,10 +106,8 @@ a F11 found in meter:
     |16-10-20 15:12:06 +8s  | [2033.log:2046807](log-excerpt/2033:2046807.log)   | [2032.log:966002](log-excerpt/2032:966002.log)   |
     |16-10-21 19:02:19 +16s | [2033.log:4573240](log-excerpt/2033:4573240.log)   | [2032.log:2147824](log-excerpt/2032:4573240.log) |
     |16-10-22 03:00:27 +16s | [2033.log:5363596](log-excerpt/2033:5363596.log)   | [2032.log:2474030](log-excerpt/2032:5363596.log) |
-    |16-10-23 03:04:18 +8s  | [2033.log:8090927](log-excerpt/2033:8090927.log)   | [2032.log:3407353](log-excerpt/2032:3407353.log) |
     |16-10-23 04:37:30 +16s | [2033.log:8281462](log-excerpt/2033:8281462.log)   | [2032.log:3467705](log-excerpt/2032:3467705.log) |
     |16-10-23 22:48:30 +16s | [2033.log:10348125](log-excerpt/2033:10348125.log) | [2032.log:4171891](log-excerpt/2032:4171891.log) |
-    |16-10-24 01:13:11 +9s  | [2033.log:10614842](log-excerpt/2033:10614842.log) | [2032.log:4265436](log-excerpt/2032:4265436.log) |
 
 - ![](pic/red-circle.png) E650#37102084 (Red)
 
