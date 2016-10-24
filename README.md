@@ -78,7 +78,7 @@ ports.
 
     |time                           | dlms log                                            | dl645 log                                        |
     |-------------------------------|-----------------------------------------------------|--------------------------------------------------|
-    |16-10-17 17:45:28 (1476697528) | [2012.log:170592 dlms](log-excerpt/2012.log.170592) | [2011.log:249725](log-excerpt/2011.log.249725)   |
+    |16-10-17 17:45:28 (1476697528) | [2012.log:170592](log-excerpt/2012.log.170592) | [2011.log:249725](log-excerpt/2011.log.249725)   |
 
 - ![](pic/red-circle.png) E650#37102084
 
@@ -114,9 +114,13 @@ a F11 found in meter:
     |time                   | dlms log                  | dl645 log           |
     |-----------------------|---------------------------|---------------------|
     |16-10-21 08:46:59 +16s | [2035.log:3711512](log-excerpt/2035:3711512.log) | [2034.log:1750664](log-excerpt/2034:1750664.log) |
-    |16-10-21 15:42:20 +8s  | [2035.log:4350909](log-excerpt/2035:4350909.log) | [2034.log:2051204](log-excerpt/2034:2051204.log)|
-    |16-10-22 08:57:42 +16s | [2035.log:6146271](log-excerpt/2035:6146271.log) | [2034.log:2767292](log-excerpt/2034:2767292.log)|
-    |16-10-22 13:54:49 +16s | [2035.log:6713299](log-excerpt/2035:6713299.log) | [2034.log:2963941](log-excerpt/2034:2963941.log)|
+    |16-10-21 15:42:20 +8s  | [2035.log:4350909](log-excerpt/2035:4350909.log) | [2034.log:2051204](log-excerpt/2034:2051204.log) |
+    |16-10-22 08:57:42 +16s | [2035.log:6146271](log-excerpt/2035:6146271.log) | [2034.log:2767292](log-excerpt/2034:2767292.log) |
+    |16-10-22 13:54:49 +16s | [2035.log:6713299](log-excerpt/2035:6713299.log) | [2034.log:2963941](log-excerpt/2034:2963941.log) |
+
+**Note** In the event of '16-10-21 15:42:20', the meter recorded a pair of 
+normal power down/up events, the duration is about 8s , but no one 
+actually power down it.
 
 # Open Points
 
