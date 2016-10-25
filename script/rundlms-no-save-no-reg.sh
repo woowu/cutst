@@ -31,6 +31,7 @@ for i in `seq $iterations`; do
     now=`date +%s`
     t=`expr $now / $period \* $period`
     t0=`expr $t - 7200 + 1`
+    echo "iteration $i"
     270 -L --no-save --no-reg \
         --lp-from "`date -d@$t0 +"%Y-%m-%d %H:%M:%S"`" \
         --lp-to "`date -d@$t +"%Y-%m-%d %H:%M:%S"`" \
