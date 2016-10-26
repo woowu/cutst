@@ -32,12 +32,12 @@ for i in `seq $iterations`; do
     t=`expr $now / $period \* $period`
     t0=`expr $t - 7200 + 1`
     echo "iteration $i"
-    echo 270 -L --no-save --no-reg \
+    echo 270 -L --brief --no-save --no-last-value --no-reg \
         --lp-from "`date -d@$t0 +"%Y-%m-%d %H:%M:%S"`" \
         --lp-to "`date -d@$t +"%Y-%m-%d %H:%M:%S"`" \
         $com_no $meter_no $baud_idx \
         $t 1
-    270 -L --no-save --no-reg \
+    270 -L --brief --no-save --no-last-value --no-reg \
         --lp-from "`date -d@$t0 +"%Y-%m-%d %H:%M:%S"`" \
         --lp-to "`date -d@$t +"%Y-%m-%d %H:%M:%S"`" \
         $com_no $meter_no $baud_idx \
