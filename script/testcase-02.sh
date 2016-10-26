@@ -13,6 +13,6 @@ rundlms-no-save-no-lp.sh 2 $iterations 2>&1 | nc $server 2043 &
 # xdlms addr 7421
 
 echo "E650 37102084 dlt645->cu, dlms->cu"
-rundlt645.sh /dev/tts4 37102084 simple $iterations 2>&1 | nc $server 2044 &
+rundlt645.sh /dev/tts4 37102084 keli $iterations 2>&1 | nc $server 2044 &
 rundlms.sh 1 $iterations 2>&1 | nc $server 2045 &
 

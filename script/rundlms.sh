@@ -34,7 +34,7 @@ for i in `seq $iterations`; do
     270 -L $com_no $meter_no $baud_idx $t 1
     if [[ $? -ne 0 ]]; then
         echo "ERR: xdlms error, exit code = $?"
-        sleep 130
+        sleep 200
     fi
 done
 
