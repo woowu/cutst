@@ -597,6 +597,7 @@ if __name__== '__main__':
 
     for i in range(args.iterations):
         print 'iteration %d' % (i + 1)
+        print args
         for addr in args.addrs:
             print 'read meter %s' % addr
             read_from_table()

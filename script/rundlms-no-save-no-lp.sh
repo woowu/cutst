@@ -31,6 +31,9 @@ for i in `seq $iterations`; do
     now=`date +%s`
     t=`expr $now / $period \* $period`
     echo "iteration $i"
+    echo 270 -L --no-save --no-lp \
+        $com_no $meter_no $baud_idx \
+        $t 1
     270 -L --no-save --no-lp \
         $com_no $meter_no $baud_idx \
         $t 1
