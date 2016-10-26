@@ -83,6 +83,7 @@ ports.
 
     |time                           | dlms log                                            | dl645 log                                        |
     |-------------------------------|-----------------------------------------------------|--------------------------------------------------|
+    |16-10-20 17:28:16              | [2041:1208895.log](log-excerpt/2041:1208895.log)    | [2040:357472.log](log-excerpt/2040:357472.log)   |
     |16-10-28 18:16:26 +8s          | [2041:1311165.log](log-excerpt/2041:1311165.log)    | [2040:391279.log](log-excerpt/2040:391279.log)   |
 
 ### Communication Failure W/O F11
@@ -109,11 +110,6 @@ a F11 found in meter:
     |16-10-22 08:57:42 +16s | [2035.log:6146271](log-excerpt/2035:6146271.log) | [2034.log:2767292](log-excerpt/2034:2767292.log) |
     |16-10-22 13:54:49 +16s | [2035.log:6713299](log-excerpt/2035:6713299.log) | [2034.log:2963941](log-excerpt/2034:2963941.log) |
 
-- ![](pic/blue-circle.png) E850#51259462
-
-    |time                   | dlms log                                           | dl645 log                                        |
-    |-----------------------|--------------------------------------------------- |--------------------------------------------------|
-    |16-10-20 17:28:16      | [2041:1208895.log](log-excerpt/2041:1208895.log)   | [2040:357472.log](log-excerpt/2040:357472.log)   |
 
 **Note** In the event of '16-10-21 15:42:20', the meter recorded a pair of 
 normal power down/up events, the duration is about 8s , but no one 
