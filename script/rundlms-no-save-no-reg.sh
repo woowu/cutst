@@ -27,17 +27,18 @@ if [[ ! $baud_idx -gt 0 ]]; then
 fi
 
 period=120
-for i in `seq $iterations`; do
+i = 0
+while [[ $i -lt $iterations ]]; do
     now=`date +%s`
     t=`expr $now / $period \* $period`
     t0=`expr $t - 7200 + 1`
     echo "iteration $i"
-    echo 270 -L --brief --no-save --no-last-value --no-reg \
+    echo 270 -L --brief --no-save --no-reg --no-last-value \
         --lp-from "`date -d@$t0 +"%Y-%m-%d %H:%M:%S"`" \
         --lp-to "`date -d@$t +"%Y-%m-%d %H:%M:%S"`" \
         $com_no $meter_no $baud_idx \
         $t 1
-    270 -L --brief --no-save --no-last-value --no-reg \
+    270 -L --brief --no-save --no-reg --no-last-value \
         --lp-from "`date -d@$t0 +"%Y-%m-%d %H:%M:%S"`" \
         --lp-to "`date -d@$t +"%Y-%m-%d %H:%M:%S"`" \
         $com_no $meter_no $baud_idx \
@@ -46,5 +47,6 @@ for i in `seq $iterations`; do
         echo "ERR: xdlms error, exit code = $?"
         sleep 200 
     fi
+    i=`expr $i + 1`
 done
 

@@ -27,15 +27,17 @@ if [[ ! $baud_idx -gt 0 ]]; then
 fi
 
 period=120
-for i in `seq $iterations`; do
+i = 0
+while [[ $i -lt $iterations ]]; do
     now=`date +%s`
     t=`expr $now / $period \* $period`
     echo "iteration $i"
-    echo 270 -L --brief --no-last-value --no-save $com_no $meter_no $baud_idx $t 1
-    270 -L --brief --no-last-value --no-save $com_no $meter_no $baud_idx $t 1
+    echo 270 -L --brief --no-save --no-last-value $com_no $meter_no $baud_idx $t 1
+    270 -L --brief --no-save --no-last-value $com_no $meter_no $baud_idx $t 1
     if [[ $? -ne 0 ]]; then
         echo "ERR: xdlms error, exit code = $?"
         sleep 200
     fi
+    i=`expr $i + 1`
 done
 
