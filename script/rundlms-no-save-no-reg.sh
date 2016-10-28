@@ -27,7 +27,7 @@ if [[ ! $baud_idx -gt 0 ]]; then
 fi
 
 period=120
-i = 0
+i=0
 while [[ $i -lt $iterations ]]; do
     now=`date +%s`
     t=`expr $now / $period \* $period`
