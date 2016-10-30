@@ -8,6 +8,8 @@
     ]
   \node[dev, rounded corners, drop shadow={opacity=0.3}] at (0cm, 0cm)
     (cu) {CU-Z62};
+  \node[dev, rounded corners, drop shadow={opacity=0.3}] at (5.5cm, 0cm)
+    (cu-2) {CU-Z62};
   \begin{scope}[node distance=.3cm and .1cm
     , every node/.style={drop shadow={opacity=1}}
     ]
@@ -15,34 +17,49 @@
       (e850) {E850};
     \node[dev, above right = of cu, xshift=-0.7cm]
       (e650) {E650};
+    \node[dev, above = of cu-2]
+      (e850-2) {E850};
   \end{scope}
 
   \draw[<->, gray] (cu) -- (e850);
   \draw[<->, gray] (cu) -- (e650);
+  \draw[<->, gray] (cu-2) -- (e850-2);
   \draw[<->] (cu.-65) -- +(0cm, -2cm) node[proto] {DL645};
   \draw[<->] (cu.-45) -- +(0cm, -2cm) node[proto] {DLMS};
   \draw[<->] (e850.225) -- +(0cm, -2cm) node[proto] {DLMS};
+  \draw[<->] (cu-2.-65) -- +(0cm, -2cm) node[proto] {DLMS};
+  \draw[<->] (cu-2.-45) -- +(0cm, -2cm) node[proto] {DLMS};
 
   %% 3 marks for dl645 on CU
-  \fill[red!50] (cu.-65)  ++(-0.1cm, -1.45cm) circle [radius=2.5pt];
+  \fill[red!65] (cu.-65)  ++(-0.1cm, -1.45cm) circle [radius=2.5pt];
   \fill[blue!50] (cu.-65)  ++(-0.1cm, -1.60cm) circle [radius=2.5pt];
   \fill[green!50] (cu.-65)  ++(-0.1cm, -1.75cm) circle [radius=2.5pt];
   %% 2 marks for dlms on CU 
-  \fill[red!50] (cu.-45)  ++(-0.1cm, -1.45cm) circle [radius=2.5pt];
+  \fill[red!65] (cu.-45)  ++(-0.1cm, -1.45cm) circle [radius=2.5pt];
   \fill[blue!50] (cu.-45)  ++(-0.1cm, -1.60cm) circle [radius=2.5pt];
   %% 1 mark for dlms on E850
   \fill[green!50] (e850.225)  ++(-0.1cm, -1.45cm) circle [radius=2.5pt];
 
   %% 3 marks for CU
-  \fill[red!50] (cu.south east) ++(-0.2cm, 0.4cm) circle [radius=2.5pt];
+  \fill[red!65] (cu.south east) ++(-0.2cm, 0.4cm) circle [radius=2.5pt];
   \fill[blue!50] (cu.south east) ++(-0.2cm, 0.25cm) circle [radius=2.5pt];
   \fill[green!50] (cu.south east) ++(-0.2cm, 0.1cm) circle [radius=2.5pt];
 
   %% 1 marks for E650
-  \fill[red!50] (e650.south east) ++(-0.2cm, 0.4cm) circle [radius=2.5pt];
+  \fill[red!65] (e650.south east) ++(-0.2cm, 0.4cm) circle [radius=2.5pt];
 
   %% 2 mark for E850
   \fill[blue!50] (e850.south east) ++(-0.2cm, 0.25cm) circle [radius=2.5pt];
   \fill[green!50] (e850.south east) ++(-0.2cm, 0.1cm) circle [radius=2.5pt];
+
+  %% 
+  \fill[orange!80!black] (cu-2.-65)  ++(-0.1cm, -1.45cm) circle [radius=2.5pt];
+  \fill[orange!80!black] (cu-2.-45)  ++(-0.1cm, -1.45cm) circle [radius=2.5pt];
+
+  %% 1 mark for E850-2
+  \fill[orange!80!black] (e850-2.south east) ++(-0.2cm, 0.25cm) circle [radius=2.5pt];
+  %% 1 marks for CU-2
+  \fill[orange!80!black] (cu-2.south east) ++(-0.2cm, 0.4cm) circle [radius=2.5pt];
+
 \end{tikzpicture}
 

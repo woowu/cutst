@@ -1,0 +1,4 @@
+\begin{tikzpicture}
+  \fill[orange!80!black] (0cm, 0cm) circle [radius=3pt];
+\end{tikzpicture}
+

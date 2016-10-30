@@ -1,0 +1,40 @@
+.PS
+copy "sequence.pic";
+
+object(F,"FFC3");
+placeholder_object(S);
+object(L,"CU Dlms");
+object(D,"CU Dlms");
+step();
+
+active(F);
+active(L);
+active(D);
+step();
+
+message(F,L, "dlms read/write");
+return_message(L,F,"normal response");
+message(F,D, "dlms read/write");
+return_message(L,F,"normal response");
+message(F,L, "dlms read/write");
+message(F,F,"timeout");
+message(F,D, "dlms read/write");
+message(F,F,"timeout");
+step()
+step()
+
+comment(F,C,right, wid 1.5 ht 0.5 \
+  "comm blocked ~2s");
+step()
+step()
+
+message(F,L, "send HDLC.RR");
+return_message(L,F,"HDLC.DM");
+message(F,D, "send HDLC.RR");
+return_message(D,F,"HDLC.DM");
+
+step();
+complete(F)
+complete(L)
+complete(D)
+.PE
