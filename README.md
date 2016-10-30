@@ -17,9 +17,9 @@ CU-Z62 Q189-F11 Testing
 
 <img src="https://woowu.github.io/cutst/pic/fixture.svg" width="350"/>
 
-| Setup  | Wiring                   | Setup | Wiring | Setup | Wiring |
-|--------|--------------------------|-------|--------|-------|--------|
-| Red    | <img src="pic/setup-red.jpg" width="80"/>  | Blue | <img src="pic/setup-blue.jpg" width="80"/>  | Green | <img src="pic/setup-green.jpg" width="80"/> | 
+| Setup  | Wiring                   | Setup | Wiring | Setup | Wiring | Setup | Wiring |
+|--------|--------------------------|-------|--------|-------|--------|-------|--------|
+| Red    | <img src="pic/setup-red.jpg" width="80"/>  | Blue | <img src="pic/setup-blue.jpg" width="80"/>  | Green | <img src="pic/setup-green.jpg" width="80"/> | Orange || 
 
 ## Test Programs 
 
@@ -32,7 +32,7 @@ xdlms
 read meter registers, profiles, events and clock
 
 # Test Findings
-## Bad DLMS APDU
+## Corrupted DLMS APDU
 
 FFC3 can see a very strange dlms response that contains
 a corrupted DLMS apdu encapsulated in a valid HDLC frame.
@@ -90,6 +90,7 @@ ports.
 
 It was observed there exists exactly same CFP as above, but **no**
 a F11 found in meter:
+![](https://woowu.github.io/cutst/pic/cfp-wo-f11.svg) ![](https://woowu.github.io/cutst/pic/cfp-wo-f11-2.svg)
 
 - ![](pic/blue-circle.png) E850#51510663
 
@@ -101,7 +102,7 @@ a F11 found in meter:
     |16-10-23 04:37:30 +16s | [2033.log:8281462](log-excerpt/2033:8281462.log)   | [2032.log:3467705](log-excerpt/2032:3467705.log) |
     |16-10-23 22:48:30 +16s | [2033.log:10348125](log-excerpt/2033:10348125.log) | [2032.log:4171891](log-excerpt/2032:4171891.log) |
 
-- ![](pic/red-circle.png) E650#37102084 (Red)
+- ![](pic/red-circle.png) E650#37102084
 
     |time                   | dlms log                  | dl645 log           |
     |-----------------------|---------------------------|---------------------|
@@ -110,6 +111,11 @@ a F11 found in meter:
     |16-10-22 08:57:42 +16s | [2035.log:6146271](log-excerpt/2035:6146271.log) | [2034.log:2767292](log-excerpt/2034:2767292.log) |
     |16-10-22 13:54:49 +16s | [2035.log:6713299](log-excerpt/2035:6713299.log) | [2034.log:2963941](log-excerpt/2034:2963941.log) |
 
+- ![](pic/orange-circle.png) E850#51510663
+
+    |time                   | dlms log                  | dlms log            |
+    |-----------------------|---------------------------|---------------------|
+    |16-10-29 06:18:09 +16s | [2092.log:521887](log-excerpt/2092:521887.log) | [2093.log:515210](log-excerpt/2093:515210.log) |
 
 **Note** In the event of '16-10-21 15:42:20', the meter recorded a pair of 
 normal power down/up events, the duration is about 8s , but no one 
