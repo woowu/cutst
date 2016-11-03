@@ -38,7 +38,8 @@ while [[ $i -lt $iterations ]]; do
     270 -L --brief --no-save --no-lp --no-last-value \
         $com_no $meter_no $baud_idx \
         $t 1
-    if [[ $? -ne 0 ]]; then
+    exit_code=$?
+    if [[ $exit_code -ne 0 ]]; then
         echo "ERR: xdlms error, exit code = $?"
         sleep 200
     fi

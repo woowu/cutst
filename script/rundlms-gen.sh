@@ -62,7 +62,8 @@ do_rd() {
         xdlms "${opts[@]}" \
             $com_no $meter_no $baud_idx $1 1
     fi
-    if [[ $? -ne 0 ]]; then
+    exit_code=$?
+    if [[ $exit_code -ne 0 ]]; then
         echo "ERR: xdlms error, exit code = $?"
         sleep 200 
     fi

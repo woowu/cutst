@@ -43,7 +43,8 @@ while [[ $i -lt $iterations ]]; do
         --lp-to "`date -d@$t +"%Y-%m-%d %H:%M:%S"`" \
         $com_no $meter_no $baud_idx \
         $t 1
-    if [[ $? -ne 0 ]]; then
+    exit_code=$?
+    if [[ $exit_code -ne 0 ]]; then
         echo "ERR: xdlms error, exit code = $?"
         sleep 200 
     fi
