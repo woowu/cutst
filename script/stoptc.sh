@@ -13,7 +13,9 @@ for pid in \
     echo killing $pid
     kill $pid
 done
+killall xdlms >/dev/null 2>&1
+killall xdlms2 >/dev/null 2>&1
 
 echo "kill nc"
-killall nc 
+killall nc >/dev/null 2>&1
 
