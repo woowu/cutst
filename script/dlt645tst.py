@@ -356,6 +356,14 @@ keli_07_ids = (
     (0x04010001,23,0),
     )
 
+sky_07_ids = (
+   (0x0101FF01,1,0),
+   (0x0102FF01,1,0),
+   (0x04000501,2,3),
+   (0x0101FF01,1,0),
+   (0x00010000,1,0),
+   )
+ 
 ID_LENGTH                   = 4
 ADDR_LENGTH                 = 6
 
@@ -581,6 +589,8 @@ if __name__== '__main__':
         id_table = weisheng_07_ids
     elif args.id_table == 'simple':
         id_table = simple_07_ids
+    elif args.id_table == 'sky':
+        id_table = sky_07_ids
     elif args.id_table == 'all':
         id_table = keli_07_ids + weisheng_07_ids
     else:

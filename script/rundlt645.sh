@@ -19,6 +19,8 @@ fi
 
 if [[ $policy == "weisheng" ]]; then
     dlt645tst.py $dev -n$iterations -tweisheng -d4 -s $meter_no
+elif [[ $policy == "sky" ]]; then
+    dlt645tst.py $dev -n$iterations -tsky -d4 -s $meter_no
 elif [[ $policy == "keli" ]]; then
     dlt645tst.py $dev -n$iterations -tkeli -d2 $meter_no
 else
