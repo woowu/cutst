@@ -11,7 +11,7 @@ killall 00
 syslog -m start
 sleep 5
 while [[ $# -gt 0 ]]; do
-    rundlt645.sh /dev/tts$(($1 - 1)) $2 weisheng $iterations 2>&1 | logger &
+    rundlt645.sh /dev/tts$(($1 - 1)) $2 weisheng $iterations 2>&1 | cut -d' ' -f3- | logger --id &
     shift
     shift
 done

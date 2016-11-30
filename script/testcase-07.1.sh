@@ -11,7 +11,7 @@ killall 00
 syslog -m start
 sleep 5
 while [[ $# -gt 0 ]]; do
-    rundlms-gen.sh $1 $iterations 2>&1 | logger &
+    rundlms-gen.sh $1 $iterations 2>&1 | cut -d' ' -f2- | logger --id &
     shift
 done
 
