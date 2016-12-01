@@ -398,7 +398,7 @@ def print_packet(packet, dir):
 
 def enc_addr(addr):
     if addr == '0':     # 0 means broadcase
-        return '9' * 12
+        return bytearray([0x99] * 6)
     norm = addr.rjust(12, '0')
     grouped = [int(norm[i:i + 2]) for i in range(0, len(norm), 2)]
     return bytearray([e / 10 * 16 + e % 10 for e in reversed(grouped)])
