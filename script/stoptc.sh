@@ -16,6 +16,8 @@ done
 killall xdlms >/dev/null 2>&1
 killall xdlms2 >/dev/null 2>&1
 
-echo "kill nc"
+echo "kill nc, cut, logger"
 killall nc >/dev/null 2>&1
+killall cut >/dev/null 2>&1
+killall logger >/dev/null 2>&1
 
