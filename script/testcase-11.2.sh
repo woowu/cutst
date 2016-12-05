@@ -2,19 +2,20 @@
 
 usage="$(basename "$0") iteration_nr com_port meter_no"
 
-FIFO=/dev/shm/$(basename "$0").fifo
-LOG=/dev/shm/$(basename "$0").log
+OUTDIR=/home/woody
+FIFO=$OUTDIR/$(basename "$0").fifo
+LOG=$OUTDIR/$(basename "$0").log
 
 iterations=$1
 dev=/dev/tts$(($2 - 1))
 meter_no=$3
 
-test_prg_pid=
+log_monitor_pid=
 
 function on_exit {
     echo exiting
-    if [ -n $test_prg_pid ]; then
-        kill $test_prg_pid
+    if [ -n $log_monitor_pid ]; then
+        kill $log_monitor_pid
     fi
     rm -f $FIFO
     exit 
@@ -32,8 +33,8 @@ function monitor_log {
 }
 
 function do_test {
-    echo "start dlt645tst.py"
-    dlt645tst.py $dev -n$iterations -tsky -d4 -s $meter_no \
+    echo "starting rundlt645.sh"
+    rundlt645.sh $dev $meter_no weisheng $iterations \
         >&3 2>&3
 }
 

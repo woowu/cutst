@@ -23,8 +23,19 @@ function on_exit {
     exit 
 }
 
-function start_test_prg {
-    echo "to start test program"
+function monitor_log {
+    while true; do
+        read line <&3
+        echo "$line" >>$LOG
+        sz=$(stat -c '%s' $LOG)
+        if [ $sz -gt 2097152 ]; then
+            rm -f $LOG
+        fi
+    done
+}
+
+function do_test {
+    echo "start xdlms2"
     xdlms2 --brief --no-reg --loops $iterations --aa-lifetime 120 \
         --lp-read-sliding-window \
         --lp-sliding-window-start "$profile_start" \
@@ -33,8 +44,6 @@ function start_test_prg {
         --lp-sliding-window-step 900 \
         $dev $hdlc_addr 21234567 9600 2 \
         >&3 2>&3 &
-    test_prg_pid=$!
-    echo "test process $test_prg_pid started in background"
 }
 
 if [ "$1" == "-h" ]; then
@@ -49,16 +58,11 @@ if [ ! -p $FIFO ]; then
 fi
 
 exec 3<>$FIFO
-start_test_prg
-sleep 1
-echo "output is senting to $LOG"
 
-while true; do
-    read line <&3
-    echo "$line" >>$LOG
-    sz=$(stat -c '%s' $LOG)
-    if [ $sz -gt 2097152 ]; then
-        rm -f $LOG
-    fi
-done
+monitor_log &
+log_monitor_pid=$!
+echo "monitoring log with process $log_monitor_pid"
+echo "logs sent to $LOG"
+do_test
+on_exit
 
