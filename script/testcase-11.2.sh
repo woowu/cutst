@@ -2,7 +2,7 @@
 
 usage="$(basename "$0") iteration_nr com_port meter_no"
 
-OUTDIR=/home/woody
+OUTDIR=/dev/shm
 FIFO=$OUTDIR/$(basename "$0").fifo
 LOG=$OUTDIR/$(basename "$0").log
 

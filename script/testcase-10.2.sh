@@ -2,19 +2,20 @@
 
 usage="$(basename "$0") iteration_nr com_port meter_no"
 
-FIFO=/dev/shm/$(basename "$0").fifo
-LOG=/dev/shm/$(basename "$0").log
+OUTDIR=/dev/shm
+FIFO=$OUTDIR/$(basename "$0").fifo
+LOG=$OUTDIR/$(basename "$0").log
 
 iterations=$1
 dev=/dev/tts$(($2 - 1))
 meter_no=$3
 
-test_prg_pid=
+log_monitor_pid=
 
 function on_exit {
     echo exiting
-    if [ -n $test_prg_pid ]; then
-        kill $test_prg_pid
+    if [ -n $log_monitor_pid ]; then
+        kill $log_monitor_pid
     fi
     rm -f $FIFO
     exit 
