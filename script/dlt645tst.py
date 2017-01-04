@@ -384,15 +384,18 @@ def open_seri(dev, baud):
 
 def timestamp():
     secs = time.time()
-    return time.strftime("%y%m%d %H%M%S", time.localtime(int(secs))) + '.%03d' \
+    return time.strftime("%y-%m-%dT%H:%M:%S"
+            , time.localtime(int(secs))) + '.%03d' \
             % int((secs % 1) * 1000)
+
+def log(line):
+    print timestamp() + ' ' + line
 
 def print_packet(packet, dir):
     width = 16
     while len(packet):
-        print timestamp() + \
-                ' %s ' % dir + ' '.join(binascii.hexlify(x)
-                        for x in packet[:width])
+        log(' %s ' % dir + ' '.join(binascii.hexlify(x)
+                        for x in packet[:width]))
         packet = packet[width:]
     sys.stdout.flush() # in case stdout is piped
 
@@ -501,7 +504,7 @@ def recv_frame():
         readable, _, _, = select([seri], [], [], timeout)
         if not readable:
             if not len(state['frame']):
-                print 'timeout'
+                log('timeout')
             return state
 
         handler = handler(state, seri.read(1))
@@ -585,6 +588,7 @@ if __name__== '__main__':
             , help='number of iterations to run')
 
     args = argp.parse_args()
+    log(str(args))
     if args.id_table == 'keli':
         id_table = keli_07_ids
     elif args.id_table == 'weisheng':
@@ -596,7 +600,7 @@ if __name__== '__main__':
     elif args.id_table == 'all':
         id_table = keli_07_ids + weisheng_07_ids
     else:
-        print 'invalid id table'
+        log('invalid id table')
         raise SystemExit
     idle_wait = args.idle_wait
     resp_timeout = args.resp_timeout
@@ -607,10 +611,11 @@ if __name__== '__main__':
 
     seri = open_seri(args.device, args.baud)
 
-    for i in range(args.iterations):
-        print 'iteration %d' % (i + 1)
-        print args
+    i = 0;
+    while args.iterations == 0 or i < args.iterations:
+        log('iteration %d' % (i + 1))
         for addr in args.addrs:
-            print 'read meter %s' % addr
+            log('read meter %s' % addr)
             read_from_table()
+        i += 1
 
