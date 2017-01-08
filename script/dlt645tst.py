@@ -360,7 +360,6 @@ sky_07_ids = (
    (0x0101FF01,1,0),
    (0x0102FF01,1,0),
    (0x04000501,2,3),
-   (0x0101FF01,1,0),
    (0x00010000,1,0),
    )
  
@@ -479,6 +478,7 @@ def recv_frame():
     def data_on_char(state, c):
         state['frame'].append(c)
         state['_len'] -= 1
+        state['data'].append(c)
         if state['_len'] > 0:
             return data_on_char
         return chksum_on_char
@@ -493,7 +493,8 @@ def recv_frame():
             state['completed'] = True
         return None
 
-    state = {'frame': bytearray(), 'ctrl': 0, 'completed': False}
+    state = {'frame': bytearray()
+            , 'ctrl': 0, 'data': bytearray(), 'completed': False}
 
     handler = opening_tag_on_char
     while True:
@@ -546,6 +547,79 @@ def read_from_table():
             seqno = 0
             index += 1
 
+    if not read_counters: return
+    resp = read_single_id(0x04910000, 0)
+    if not len(resp['frame']): return
+    if not no_trace or not resp['completed']:
+        print_packet(bytes(resp['frame']), ' ')
+    if len(resp['data']) != (12 + 1) * 4:
+        log('error: incorrect counters resp')
+        return
+    data = resp['data'][4:] # strip the id
+    decode_dl645_data(data)
+    print_counters(data)
+
+def decode_dl645_data(data):
+    for i in range(len(data)):
+        m = data[i] - 0x33
+        if m < 0:
+            m = 256 + m
+        data[i] = m
+
+def parse_uint_be(array):
+    n = 0
+    for i in range(len(array)):
+        n = n * 256 + array[i]
+    return n
+
+def print_counters(data):
+    mco_abort = parse_uint_be(data[:4])
+    data = data[4:]
+    mco_nak = parse_uint_be(data[:4])
+    data = data[4:]
+    mco_bcc = parse_uint_be(data[:4])
+    data = data[4:]
+    mco_timeout = parse_uint_be(data[:4])
+    data = data[4:]
+    mco_overrepeat = parse_uint_be(data[:4])
+    data = data[4:]
+    mco_lock_broken = parse_uint_be(data[:4])
+    data = data[4:]
+    mco_trans = parse_uint_be(data[:4])
+    data = data[4:]
+    dlp_sch_ddc_err = parse_uint_be(data[:4])
+    data = data[4:]
+    dlp_lock_broken = parse_uint_be(data[:4])
+    data = data[4:]
+    dlp_frozen = parse_uint_be(data[:4])
+    data = data[4:]
+    krn_send_lock_broken = parse_uint_be(data[:4])
+    data = data[4:]
+    krn_tics = parse_uint_be(data[:4])
+
+    summary = 'krn_tics: %d; ' % krn_tics
+    if mco_abort:
+        summary += 'mart: %d; ' % mco_abort
+    if mco_nak:
+        summary += 'mnak: %d; ' % mco_nak
+    if mco_bcc:
+        summary += 'mbcc: %d; ' % mco_bcc
+    if mco_timeout:
+        summary += 'mto: %d; ' % mco_timeout
+    if mco_overrepeat:
+        summary += 'movr: %d; ' % mco_overrepeat
+    if mco_lock_broken:
+        summary += 'mlb: %d; ' % mco_lock_broken
+    if mco_trans:
+        summary += 'mtrans: %d; ' % mco_trans
+    if dlp_lock_broken:
+        summary += 'dlb: %d; ' % dlp_lock_broken
+    if dlp_frozen:
+        summary += 'dfr: %d; ' % dlp_frozen
+    if krn_send_lock_broken:
+        summary += 'kslb: %d; ' % krn_send_lock_broken
+    log(summary)
+
 if __name__== '__main__':
     argp = ArgumentParser(prog='dlt645tst.py')
     argp.add_argument('device'
@@ -586,6 +660,9 @@ if __name__== '__main__':
             , type=int
             , default=1
             , help='number of iterations to run')
+    argp.add_argument('--read-counters'
+            , action='store_true'
+            , help='read the debug counters (4.145.0.0)')
 
     args = argp.parse_args()
     log(str(args))
@@ -608,6 +685,7 @@ if __name__== '__main__':
     leading_chars_nr = args.leading_chars
     no_trace = args.no_trace
     no_read_subsequent = args.no_read_subsequent
+    read_counters = args.read_counters
 
     seri = open_seri(args.device, args.baud)
 
