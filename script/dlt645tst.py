@@ -552,7 +552,7 @@ def read_from_table():
     if not len(resp['frame']): return
     if not no_trace or not resp['completed']:
         print_packet(bytes(resp['frame']), ' ')
-    if len(resp['data']) != (12 + 1) * 4:
+    if len(resp['data']) != (16 + 1) * 4:
         log('error: incorrect counters resp')
         return
     data = resp['data'][4:] # strip the id
@@ -587,6 +587,15 @@ def print_counters(data):
     data = data[4:]
     mco_trans = parse_uint_be(data[:4])
     data = data[4:]
+    mco_slave_reqs = parse_uint_be(data[:4])
+    data = data[4:]
+    mco_slave_resps = parse_uint_be(data[:4])
+    data = data[4:]
+    mco_master_reqs = parse_uint_be(data[:4])
+    data = data[4:]
+    mco_master_resps = parse_uint_be(data[:4])
+
+    data = data[4:]
     dlp_sch_ddc_err = parse_uint_be(data[:4])
     data = data[4:]
     dlp_lock_broken = parse_uint_be(data[:4])
@@ -611,7 +620,9 @@ def print_counters(data):
     if mco_lock_broken:
         summary += 'mlb: %d; ' % mco_lock_broken
     if mco_trans:
-        summary += 'mtrans: %d; ' % mco_trans
+        summary += 'mtrans: %d (s: %d, %d, m: %d, %d); ' % (
+                mco_trans, mco_slave_reqs, mco_slave_resps
+                , mco_master_reqs, mco_master_resps)
     if dlp_lock_broken:
         summary += 'dlb: %d; ' % dlp_lock_broken
     if dlp_frozen:
