@@ -3,7 +3,7 @@
 
 from argparse import ArgumentParser
 from select import select
-import sys, time, re, serial, binascii
+import sys, time, re, serial, binascii, datetime
 
 simple_07_ids = (
    (0x00010000,1,0),
@@ -378,6 +378,8 @@ FR_RESP_FLG_MASK            = 0x40
 FR_SUBSEQUENT_IND_MASK      = 0x20
 FR_FC_MASK                  = 0x1f
 
+last_read_counters_time = datetime.datetime(1970, 1, 1)
+
 def open_seri(dev, baud):
     return serial.Serial(dev, baud, bytesize=8, parity='E', timeout=0)
 
@@ -547,7 +549,17 @@ def read_from_table():
             seqno = 0
             index += 1
 
-    if not read_counters: return
+def read_debug_counters():
+    global last_read_counters_time
+
+    if last_read_counters_time:
+        delta = datetime.datetime.now() - last_read_counters_time
+    else:
+        delta = datetime.datetime.now()
+    if delta.total_seconds() < read_counters_intvl:
+        return
+
+    print 'rd counters'
     resp = read_single_id(0x04910000, 0)
     if not len(resp['frame']): return
     if not no_trace or not resp['completed']:
@@ -558,6 +570,7 @@ def read_from_table():
     data = resp['data'][4:] # strip the id
     decode_dl645_data(data)
     print_counters(data)
+    last_read_counters_time = datetime.datetime.now()
 
 def decode_dl645_data(data):
     for i in range(len(data)):
@@ -674,6 +687,10 @@ if __name__== '__main__':
     argp.add_argument('--read-counters'
             , action='store_true'
             , help='read the debug counters (4.145.0.0)')
+    argp.add_argument('--read-counters-intvl'
+            , type=float
+            , default=60
+            , help='intvl secs to read the debug counters')
 
     args = argp.parse_args()
     log(str(args))
@@ -697,6 +714,7 @@ if __name__== '__main__':
     no_trace = args.no_trace
     no_read_subsequent = args.no_read_subsequent
     read_counters = args.read_counters
+    read_counters_intvl = args.read_counters_intvl
 
     seri = open_seri(args.device, args.baud)
 
@@ -706,5 +724,7 @@ if __name__== '__main__':
         for addr in args.addrs:
             log('read meter %s' % addr)
             read_from_table()
+            if read_counters:
+                read_debug_counters()
         i += 1
 
