@@ -563,7 +563,7 @@ def read_debug_counters():
     if not len(resp['frame']): return
     if not no_trace or not resp['completed']:
         print_packet(bytes(resp['frame']), ' ')
-    if len(resp['data']) != (16 + 1) * 4:
+    if len(resp['data']) != (14 + 1 + 1) * 4:
         log('error: incorrect counters resp')
         return
     data = resp['data'][4:] # strip the id
@@ -612,8 +612,6 @@ def print_counters(data):
     data = data[4:]
     dlp_lock_broken = parse_uint_be(data[:4])
     data = data[4:]
-    dlp_frozen = parse_uint_be(data[:4])
-    data = data[4:]
     krn_send_lock_broken = parse_uint_be(data[:4])
     data = data[4:]
     krn_tics = parse_uint_be(data[:4])
@@ -637,8 +635,6 @@ def print_counters(data):
                 , mco_master_reqs, mco_master_resps)
     if dlp_lock_broken:
         summary += 'dlb: %d; ' % dlp_lock_broken
-    if dlp_frozen:
-        summary += 'dfr: %d; ' % dlp_frozen
     if krn_send_lock_broken:
         summary += 'kslb: %d; ' % krn_send_lock_broken
     log(summary)
