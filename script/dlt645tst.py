@@ -379,6 +379,9 @@ FR_SUBSEQUENT_IND_MASK      = 0x20
 FR_FC_MASK                  = 0x1f
 
 last_read_counters_time = datetime.datetime(1970, 1, 1)
+cu_reset_nr = 0
+timeout_nr = 0
+read_nr = 0
 
 def open_seri(dev, baud):
     return serial.Serial(dev, baud, bytesize=8, parity='E', timeout=0)
@@ -524,6 +527,7 @@ def read_single_id(id, seqno):
     return recv_frame()
 
 def read_from_table():
+    global read_nr, timeout_nr
     index = 0
     seqno = 0
 
@@ -531,10 +535,13 @@ def read_from_table():
         entry = id_table[index]
         for r in range(entry[1] + 1):
             resp = read_single_id(entry[0], seqno)
+            read_nr += 1
             if len(resp['frame']) \
                     and (not no_trace or not resp['completed']):
                 print_packet(bytes(resp['frame']), ' ')
-            if not len(resp['frame']): continue
+            if not len(resp['frame']):
+                timeout_nr += 1
+                continue
 
             if is_normal_resp(resp['ctrl']) or entry[2] == 0: 
                 time.sleep(idle_wait)
@@ -584,7 +591,12 @@ def parse_uint_be(array):
         n = n * 256 + array[i]
     return n
 
+prev_krn_tics = None
+prev_krn_tics_read_time = None
 def print_counters(data):
+    global prev_krn_tics, prev_krn_tics_read_time
+    global cu_reset_nr
+
     mco_abort = parse_uint_be(data[:4])
     data = data[4:]
     mco_nak = parse_uint_be(data[:4])
@@ -639,6 +651,24 @@ def print_counters(data):
         summary += 'kslb: %d; ' % krn_send_lock_broken
     log(summary)
 
+    if prev_krn_tics == None:
+        prev_krn_tics = krn_tics
+        prev_krn_tics_read_time = datetime.datetime.now()
+        return
+
+    delta = (datetime.datetime.now()
+            - prev_krn_tics_read_time).total_seconds()
+    # One sec = 200 tics in our CU
+    # Times 5 giving it a margin
+    if abs(krn_tics - prev_krn_tics) > (5 * delta * 200):
+        log('detected CU reset!')
+        cu_reset_nr += 1
+        prev_krn_tics = krn_tics
+        prev_krn_tics_read_time = datetime.datetime.now()
+
+def print_statics():
+    log('ttl reads=%d, timeout=%d' % (read_nr, timeout_nr))
+
 if __name__== '__main__':
     argp = ArgumentParser(prog='dlt645tst.py')
     argp.add_argument('device'
@@ -688,7 +718,6 @@ if __name__== '__main__':
             , help='intvl secs to read the debug counters')
 
     args = argp.parse_args()
-    log(str(args))
     if args.id_table == 'keli':
         id_table = keli_07_ids
     elif args.id_table == 'weisheng':
@@ -721,5 +750,6 @@ if __name__== '__main__':
             read_from_table()
             if read_counters:
                 read_debug_counters()
+        print_statics()
         i += 1
 
