@@ -559,7 +559,6 @@ def read_debug_counters():
     if delta.total_seconds() < read_counters_intvl:
         return
 
-    print 'rd counters'
     resp = read_single_id(0x04910000, 0)
     if not len(resp['frame']): return
     if not no_trace or not resp['completed']:
