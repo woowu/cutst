@@ -13,6 +13,14 @@ for pid in \
     echo killing $pid
     kill $pid
 done
+
+echo "stop testcase-*.sh"
+for pid in \
+    `ps -eF |grep testcase |grep -v grep |sed -n 's/^root\s\+\([0-9]\+\)\s\+.*$/\1/p'`; do
+    echo killing $pid
+    kill $pid
+done
+
 killall xdlms >/dev/null 2>&1
 killall xdlms2 >/dev/null 2>&1
 
