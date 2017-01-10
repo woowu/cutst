@@ -8,7 +8,7 @@ rundlms() {
     for i in `seq 1000`; do
         xdlms2 --allow-event-acq --allow-sync-clock --default-intvl 2 \
             --loops 200 --aa-lifetime 60 $1 $2 21234567 9600 2 \
-            | nc 10.86.201.53 $3
+            | socat - TCP4:10.86.201.53:$3
     done
 }
 
