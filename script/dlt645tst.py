@@ -570,8 +570,8 @@ def read_debug_counters():
     if not len(resp['frame']): return
     if not no_trace or not resp['completed']:
         print_packet(bytes(resp['frame']), ' ')
-    if len(resp['data']) != (14 + 1 + 1) * 4:
-        log('error: incorrect counters resp')
+    if len(resp['data']) != (19 + 1) * 4:
+        log('error: incorrect counters resp: len=%d' % len(resp['data']))
         return
     data = resp['data'][4:] # strip the id
     decode_dl645_data(data)
@@ -618,6 +618,12 @@ def print_counters(data):
     mco_master_reqs = parse_uint_be(data[:4])
     data = data[4:]
     mco_master_resps = parse_uint_be(data[:4])
+    data = data[4:]
+    mco_send_altered = parse_uint_be(data[:4])
+    data = data[4:]
+    mco_recv_altered = parse_uint_be(data[:4])
+    data = data[4:]
+    mco_duplex = parse_uint_be(data[:4])
 
     data = data[4:]
     dlp_sch_ddc_err = parse_uint_be(data[:4])
@@ -625,6 +631,8 @@ def print_counters(data):
     dlp_lock_broken = parse_uint_be(data[:4])
     data = data[4:]
     krn_send_lock_broken = parse_uint_be(data[:4])
+    data = data[4:]
+    idt = parse_uint_be(data[:4])
     data = data[4:]
     krn_tics = parse_uint_be(data[:4])
 
@@ -641,6 +649,10 @@ def print_counters(data):
         summary += 'movr: %d; ' % mco_overrepeat
     if mco_lock_broken:
         summary += 'mlb: %d; ' % mco_lock_broken
+    if mco_send_altered:
+        summary += 'msa: %d; ' % mco_send_altered
+    if mco_recv_altered:
+        summary += 'mra: %d; ' % mco_recv_altered
     if mco_trans:
         summary += 'mtrans: %d (s: %d, %d, m: %d, %d); ' % (
                 mco_trans, mco_slave_reqs, mco_slave_resps
@@ -649,6 +661,8 @@ def print_counters(data):
         summary += 'dlb: %d; ' % dlp_lock_broken
     if krn_send_lock_broken:
         summary += 'kslb: %d; ' % krn_send_lock_broken
+    if idt:
+        summary += 'idt: %d; ' % idt
     log(summary)
 
     if prev_krn_tics == None:
