@@ -570,7 +570,7 @@ def read_debug_counters():
     if not len(resp['frame']): return
     if not no_trace or not resp['completed']:
         print_packet(bytes(resp['frame']), ' ')
-    if len(resp['data']) != (19 + 1) * 4:
+    if len(resp['data']) != (20 + 1) * 4:
         log('error: incorrect counters resp: len=%d' % len(resp['data']))
         return
     data = resp['data'][4:] # strip the id
@@ -624,6 +624,8 @@ def print_counters(data):
     mco_recv_altered = parse_uint_be(data[:4])
     data = data[4:]
     mco_duplex = parse_uint_be(data[:4])
+    data = data[4:]
+    mco_extq = parse_uint_be(data[:4])
 
     data = data[4:]
     dlp_sch_ddc_err = parse_uint_be(data[:4])
@@ -652,7 +654,9 @@ def print_counters(data):
     if mco_send_altered:
         summary += 'msa: %d; ' % mco_send_altered
     if mco_recv_altered:
-        summary += 'mra: %d; ' % mco_recv_altered
+        summary += 'mdup: %d; ' % mco_duplex
+    if mco_extq:
+        summary += 'meq: %d; ' % mco_extq
     if mco_trans:
         summary += 'mtrans: %d (s: %d, %d, m: %d, %d); ' % (
                 mco_trans, mco_slave_reqs, mco_slave_resps
