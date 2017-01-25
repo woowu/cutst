@@ -363,6 +363,8 @@ sky_07_ids = (
    (0x00010000,1,0),
    )
  
+no_ids = ()
+
 ID_LENGTH                   = 4
 ADDR_LENGTH                 = 6
 
@@ -746,6 +748,8 @@ if __name__== '__main__':
         id_table = sky_07_ids
     elif args.id_table == 'all':
         id_table = keli_07_ids + weisheng_07_ids
+    elif args.id_table == 'empty':
+        id_table = no_ids
     else:
         log('invalid id table')
         raise SystemExit
