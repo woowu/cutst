@@ -5,7 +5,7 @@ from argparse import ArgumentParser
 from select import select
 import sys, time, re, serial, binascii, datetime
 
-simple_07_ids = (
+__07_simple_ids = (
    (0x00010000,1,0),
    (0x00020000,1,0),
    (0x00030000,1,0),
@@ -167,7 +167,7 @@ simple_07_ids = (
    (0x00040000,1,0),
    )
 
-weisheng_07_ids = (
+__07_weisheng_ids = (
    (0x04000501,1,0),
    (0x00010000,1,0),
    (0x00010100,1,0),
@@ -299,7 +299,7 @@ weisheng_07_ids = (
    (0x0102FF01,1,0),
     )
 
-keli_07_ids = (
+__07_keli_ids = (
     (0x00010000,2,3),
     (0x00010100,2,3),
     (0x00010200,2,3),
@@ -356,34 +356,61 @@ keli_07_ids = (
     (0x04010001,23,0),
     )
 
-sky_07_ids = (
+__07_sky_ids = (
    (0x0101FF01,1,0),
    (0x0102FF01,1,0),
    (0x04000501,2,3),
    (0x00010000,1,0),
    )
  
+__97_sky_ids = (
+   (0xc010,1,0),
+   (0xa01f,1,0),
+   (0xb01f,1,0),
+   (0xa02f,1,0),
+   (0xc020,1,0),
+   (0x9010,1,0),
+   )
+
 no_ids = ()
 
-ID_LENGTH                   = 4
-ADDR_LENGTH                 = 6
+proto_algo_07 = {
+        'id_len': 4,
+        'addr_len': 6,
+        'leading_char': 254,
+        'opening_tag': 104,
+        'closing_tag': 22,
+        'complement_char': 51,
+        'ctrl_read_data': 17,
+        'ctrl_read_next_data': 18,
+        'fr_resp_mask': 0x80,
+        'fr_resp_flg_mask': 0x40,
+        'fr_subsequent_ind_mask': 0x20,
+        'fr_fc_mask': 0x1f,
+        }
 
-LEADING_CHAR                = 254
-OPENING_TAG                 = 104
-CLOSING_TAG                 = 22
-COMPLEMENT_CHAR             = 51
-FC_READ_DATA                = 17
-FC_READ_NEXT_DATA           = 18
+proto_algo_97 = {
+        'id_len': 2,
+        'addr_len': 6,
+        'leading_char': 254,
+        'opening_tag': 104,
+        'closing_tag': 22,
+        'complement_char': 51,
+        'ctrl_read_data': 1,
+        'ctrl_read_next_data': 18,          # FIXME
+        'fr_resp_mask': 0x80,               # FIXME
+        'fr_resp_flg_mask': 0x40,           # FIXME
+        'fr_subsequent_ind_mask': 0x20,     # FIXME
+        'fr_fc_mask': 0x1f,                 # FIXME
+        }
 
-FR_RESP_MASK                = 0x80
-FR_RESP_FLG_MASK            = 0x40
-FR_SUBSEQUENT_IND_MASK      = 0x20
-FR_FC_MASK                  = 0x1f
-
+proto_algo = proto_algo_07
 last_read_counters_time = datetime.datetime(1970, 1, 1)
 cu_reset_nr = 0
 timeout_nr = 0
 read_nr = 0
+read_counters = False
+read_counters_intvl = 0
 
 def open_seri(dev, baud):
     return serial.Serial(dev, baud, bytesize=8, parity='E', timeout=0)
@@ -416,23 +443,27 @@ def mod256_sum(barry):
     return reduce(lambda x, y: x + y, barry) % 256
 
 def is_normal_resp(ctrl):
-    return (ctrl & FR_RESP_MASK) and not (ctrl & FR_RESP_FLG_MASK)
+    return (ctrl & proto_algo['fr_resp_mask']) \
+            and not (ctrl & proto_algo['fr_resp_flg_mask'])
 
 def has_next_data(ctrl):
-    return is_normal_resp(ctrl) and (ctrl & FR_SUBSEQUENT_IND_MASK)
+    return is_normal_resp(ctrl) and \
+            (ctrl & proto_algo['fr_subsequent_ind_mask'])
 
 def is_subsequent_frame(ctrl):
-    return ctrl & FR_FC_MASK == FC_READ_NEXT_DATA
+    return ctrl & proto_algo['fr_fc_mask'] == proto_algo['ctrl_read_next_data']
 
 def create_read_req(id, seqno):
-    frame = bytearray([OPENING_TAG])
+    frame = bytearray([proto_algo['opening_tag']])
     frame += enc_addr(addr)
     if seqno == 0:
-        frame += bytearray([OPENING_TAG, FC_READ_DATA, ID_LENGTH])
+        frame += bytearray([proto_algo['opening_tag']
+            , proto_algo['ctrl_read_data'], proto_algo['id_len']])
     else:
-        frame += bytearray([OPENING_TAG, FC_READ_NEXT_DATA, ID_LENGTH + 1])
-    for i in range(ID_LENGTH):
-        frame.append((id + COMPLEMENT_CHAR) % 256)
+        frame += bytearray([proto_algo['opening_tag']
+            , proto_algo['ctrl_read_next_data'], proto_algo['id_len'] + 1])
+    for i in range(proto_algo['id_len']):
+        frame.append((id + proto_algo['complement_char']) % 256)
         id /= 256
 
     # Keli did not complement the seqno with 51
@@ -443,12 +474,12 @@ def create_read_req(id, seqno):
     leading = bytearray()
     for i in range(leading_chars_nr):
         leading.append(0xfe)
-    return leading + frame + bytearray([CLOSING_TAG])
+    return leading + frame + bytearray([proto_algo['closing_tag']])
 
 def recv_frame():
     def opening_tag_on_char(state, c):
         state['frame'].append(c)
-        if ord(c) == OPENING_TAG:
+        if ord(c) == proto_algo['opening_tag']:
             state['_len'] = 0
             return addr_on_char
         else:
@@ -457,14 +488,14 @@ def recv_frame():
     def addr_on_char(state, c):
         state['frame'].append(c)
         state['_len'] += 1
-        if state['_len'] == ADDR_LENGTH:
+        if state['_len'] == proto_algo['addr_len']:
             return second_tag_on_char
         else:
             return addr_on_char
 
     def second_tag_on_char(state, c):
         state['frame'].append(c)
-        if ord(c) == OPENING_TAG:
+        if ord(c) == proto_algo['opening_tag']:
             return ctrl_on_char
         else:
             return None
@@ -496,7 +527,7 @@ def recv_frame():
 
     def closing_tag_on_char(state, c):
         state['frame'].append(c)
-        if ord(c) == CLOSING_TAG:
+        if ord(c) == proto_algo['closing_tag']:
             state['completed'] = True
         return None
 
@@ -739,28 +770,35 @@ if __name__== '__main__':
 
     args = argp.parse_args()
     if args.id_table == 'keli':
-        id_table = keli_07_ids
+        id_table = __07_keli_ids
     elif args.id_table == 'weisheng':
-        id_table = weisheng_07_ids
+        id_table = __07_weisheng_ids
     elif args.id_table == 'simple':
-        id_table = simple_07_ids
+        id_table = __07_simple_ids
     elif args.id_table == 'sky':
-        id_table = sky_07_ids
+        id_table = __07_sky_ids
     elif args.id_table == 'all':
-        id_table = keli_07_ids + weisheng_07_ids
+        id_table = __07_keli_ids + __07_weisheng_ids
+    elif args.id_table == '97sky':
+        id_table = __97_sky_ids
     elif args.id_table == 'empty':
         id_table = no_ids
     else:
         log('invalid id table')
         raise SystemExit
+    if args.id_table[0] == '9' and args.id_table[1] == '7':
+        mode_97 = True
     idle_wait = args.idle_wait
     resp_timeout = args.resp_timeout
     inter_char_timeout = args.inter_char_timeout
     leading_chars_nr = args.leading_chars
     no_trace = args.no_trace
     no_read_subsequent = args.no_read_subsequent
-    read_counters = args.read_counters
-    read_counters_intvl = args.read_counters_intvl
+    if not mode_97:
+        read_counters = args.read_counters
+        read_counters_intvl = args.read_counters_intvl
+    if mode_97:
+        proto_algo = proto_algo_97
 
     seri = open_seri(args.device, args.baud)
 
