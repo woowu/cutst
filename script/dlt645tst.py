@@ -405,6 +405,7 @@ proto_algo_97 = {
         }
 
 proto_algo = proto_algo_07
+mode_97 = False
 last_read_counters_time = datetime.datetime(1970, 1, 1)
 cu_reset_nr = 0
 timeout_nr = 0
