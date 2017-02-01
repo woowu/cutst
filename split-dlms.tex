@@ -1,0 +1,115 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[a4paper,includeheadfoot,margin=1in]{geometry}
+\usepackage{listings}
+\usepackage{lipsum}
+
+\definecolor{mylightgray}{rgb}{0.9,0.9,0.9}
+\lstdefinestyle{datagram}{
+  %backgroundcolor=\color{mylightgray},
+  belowcaptionskip=1\baselineskip,
+  breaklines=false,
+  frame=l,
+  framerule=0pt,
+  showstringspaces=false,
+  basicstyle=\scriptsize\ttfamily,
+  %linewidth=\textwidth,
+  xleftmargin=\parindent,
+  %xleftmargin=.1\textwidth,
+}
+
+\title{Split DLMS}
+\author{Woody Wu}
+
+\begin{document}
+\maketitle
+
+%The Dual-DLMS communication tests, comparing to DL645+DLMS tests has an
+%advantage that give me a more direct observation in terms of CU-meter
+%communications, because I can now check when one channel presented a
+%communication problem, what was going on on the other channel. If
+%a DL645 would be the another channel, this is not so possible since
+%DL645 traffics tell me so less information of its DLMS behaviors
+%behind. With this extra information revealed -- the instant DLMS
+%behaviors on the other channel -- the previously wonders of the
+%question of which part generated the strange corrupted DLMS messages
+%becomes clear to me. At present in this paper, I propose that \textbf{%
+%it was the meter}.
+
+\large{Case 1}
+
+\lstset{escapechar=@,style=datagram}
+\begin{lstlisting}
+Ch.1 DLMS 2016-11-01T00:20:21.813CST         Ch.2 DLMS 2016-11-01T00:20:21.772CST
+CU-Z62 on E850#50506421.H03                  RS485 on E850#50506421.H03
+                                             
+> 7EA04700 0272FB61 BA0A48E6 E6000501        > 7EA04700 0272FB61 BA0A48E6 E6000501
+> 04627801 02040204 12000809 06000001        > 04627801 02040204 12000809 06000001
+> 0000FF0F 02120000 090C07E0 0A1FFF16        > 0000FF0F 02120000 090C07E0 0B01FF00
+> 14010080 0000090C 07E00B01 FF001400        > 0F000080 0000090C 07E00B01 FF000F01
+> 00800000 0100D854 7E                       > 00800000 0100FB14 7E               
+                                             
+< 7EA04B61 000272FB DA1E21E6 E7000C01        < 7EA03261 000272FB DA6B71E6 E7000C01
+< 00020C09 0C07E00B 0102000F 00FF8000        < 00010105 0000027B 05000000 00050000
+< 00060081 00041400 00000000 14B9E614        < 00000500 00000005 00000000 05000000
+< 00000000 0000172B 14000000 00000129        < 00B3697E                           
+< 3B140000 00000000 25D7E259 7E
+\end{lstlisting}
+
+\large{Case 2}
+
+\lstset{escapechar=@,style=datagram}
+\begin{lstlisting}
+Ch.1 DLMS 2016-11-14T05:10:02.118CST         Ch.2 DLMS 2016-11-14T05:10:02.219CST  
+CU-Z62 on E850#51500165 ver: H03             RS485 on E850#51500165 ver: H03 
+                                             
+> 7EA04700 02121B61 962133E6 E6000501        > 7EA04700 02121B61 7019B1E6 E6000501 
+> 04627801 02040204 12000809 06000001        > 04627801 02040204 12000809 06000001
+> 0000FF0F 02120000 090C07E0 0B0EFF05        > 0000FF0F 02120000 090C07E0 0B0EFF05
+> 09010080 0000090C 07E00B0E FF050A00        > 09010080 0000090C 07E00B0E FF050A00
+> 00800000 0100FC2A 7E                       > 00800000 0100FC2A 7E               
+                                             
+< 7EA04B61 0002121B 98DCACE6 E7000C01        < 7EA0C861 0002121B 36DBCEE6 E7000C01
+< 00021A09 0C07E00B 0E01050A 00FF8000        < 00010114 00000000 00000526 14000000
+< 00060081 00041400 00000000 00004714        < 00000000 B7140000 00000003 85011400
+< 00000000 0000536B 14000000 00000005        < 00000000 00000814 00000000 00000000
+< 2E140000 00000003 85B8BF28 7E              < 14000000 00000000 0C140000 00000000
+                                             < 002F1400 00000000 00000B14 00000000
+                                             < 00000000 14000000 0000001B 7D140000
+                                             < 00000000 1EA31400 00000000 00194A14
+                                             < 00000000 00000000 14000000 000000B2
+                                             < 88140000 00000000 C6B41400 00000000
+                                             < 00A22814 00000000 00000000 14000000
+                                             < 00000076 46140000 00000000 83E21400
+                                             < 00000000 0075593F 137E             
+\end{lstlisting}
+
+\newpage
+\large{Case 3}
+\lstset{escapechar=@,style=datagram}
+\begin{lstlisting}
+Ch.1 DLMS 2016-11-16T00:00:57.532CST        Ch.2 DLMS 2016-11-16T00:00:57.724CST
+CU-B2 on E850#51500165.H03                  RS485 on E850#51500165.H03
+                                            
+> 7EA04700 0272FB61 D05684E6 E6000501       > 7EA04700 0272FB61 9052C6E6 E6000501
+> 04627801 02040204 12000809 06000001       > 04627801 02040204 12000809 06000001
+> 0000FF0F 02120000 090C07E0 0B10FF00       > 0000FF0F 02120000 090C07E0 0B10FF00
+> 00000080 0000090C 07E00B10 FF000001       > 00000080 0000090C 07E00B10 FF000001
+> 00800000 01004BE6 7E                      > 00800000 01004BE6 7E               
+                                            
+< 7EA01461 000272FB 3C1DC8E6 E7000C01       < 7EA0C061 000272FB 389D15E6 E7000C01
+< 000102EB D27E                             < 00020C09 0C07E00B 10030000 00FF8000
+                                            < 00060081 00041400 00000000 14B9E614
+                                            < 00000000 0000172B 14000000 00000129
+                                            < 3B140000 00000000 25D70500 00045605
+                                            < 00000000 05000000 00050000 00000500
+                                            < 00000005 00000000 020C090C 07E00B10
+                                            < 03000000 FF800000 06000900 04140000
+                                            < 00000014 B9E61400 00000000 00172B14
+                                            < 00000000 0001293B 14000000 00000025
+                                            < D7050000 04560500 00000005 00000000
+                                            < 05000000 00050000 00000500 00000051
+                                            < 587E                               
+\end{lstlisting}
+\end{document}
+
