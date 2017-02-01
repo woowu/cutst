@@ -5,6 +5,17 @@ from argparse import ArgumentParser
 from select import select
 import sys, time, re, serial, binascii, datetime
 
+__07_demo_ids = (
+    (0x04000101, 1, 0),
+    (0x04000102, 1, 0),
+    (0x0400040b, 1, 0),
+    (0x0400040d, 1, 0),
+    (0x04800001, 1, 0),
+    (0x04800002, 1, 0),
+    (0x04800003, 1, 0),
+    (0x00010000, 1, 0),
+    )
+
 __07_simple_ids = (
    (0x00010000,1,0),
    (0x00020000,1,0),
@@ -478,6 +489,11 @@ def create_read_req(id, seqno):
     return leading + frame + bytearray([proto_algo['closing_tag']])
 
 def recv_frame():
+    def calc_mod256_chksum(frame):
+        chksum = 0;
+        for c in frame:
+            chksum = (chksum + c) % 256
+        return chksum
     def opening_tag_on_char(state, c):
         state['frame'].append(c)
         if ord(c) == proto_algo['opening_tag']:
@@ -485,7 +501,6 @@ def recv_frame():
             return addr_on_char
         else:
             return opening_tag_on_char
-
     def addr_on_char(state, c):
         state['frame'].append(c)
         state['_len'] += 1
@@ -493,19 +508,16 @@ def recv_frame():
             return second_tag_on_char
         else:
             return addr_on_char
-
     def second_tag_on_char(state, c):
         state['frame'].append(c)
         if ord(c) == proto_algo['opening_tag']:
             return ctrl_on_char
         else:
             return None
-
     def ctrl_on_char(state, c):
         state['frame'].append(c)
         state['ctrl'] = ord(c)
         return length_on_char
-
     def length_on_char(state, c):
         state['frame'].append(c)
         state['_len'] = ord(c)
@@ -513,7 +525,6 @@ def recv_frame():
             return data_on_char
         else:
             return chksum_on_char
-
     def data_on_char(state, c):
         state['frame'].append(c)
         state['_len'] -= 1
@@ -521,11 +532,11 @@ def recv_frame():
         if state['_len'] > 0:
             return data_on_char
         return chksum_on_char
-
     def chksum_on_char(state, c):
+        if calc_mod256_chksum(state['frame']) != ord(c):
+            state['bad_chksum'] = True
         state['frame'].append(c)
         return closing_tag_on_char
-
     def closing_tag_on_char(state, c):
         state['frame'].append(c)
         if ord(c) == proto_algo['closing_tag']:
@@ -533,7 +544,8 @@ def recv_frame():
         return None
 
     state = {'frame': bytearray()
-            , 'ctrl': 0, 'data': bytearray(), 'completed': False}
+            , 'ctrl': 0, 'data': bytearray(), 'completed': False
+            , 'bad_chksum': False}
 
     handler = opening_tag_on_char
     while True:
@@ -573,6 +585,8 @@ def read_from_table():
             if len(resp['frame']) \
                     and (not no_trace or not resp['completed']):
                 print_packet(bytes(resp['frame']), ' ')
+            if resp['bad_chksum']:
+                log('bad chksum')
             if not len(resp['frame']):
                 timeout_nr += 1
                 continue
@@ -770,7 +784,9 @@ if __name__== '__main__':
             , help='intvl secs to read the debug counters')
 
     args = argp.parse_args()
-    if args.id_table == 'keli':
+    if args.id_table == 'demo':
+        id_table = __07_demo_ids
+    elif args.id_table == 'keli':
         id_table = __07_keli_ids
     elif args.id_table == 'weisheng':
         id_table = __07_weisheng_ids
