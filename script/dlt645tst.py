@@ -16,6 +16,12 @@ __07_demo_ids = (
     (0x00010000, 1, 0),
     )
 
+__97_demo_ids = (
+    (0xc010, 1, 0),
+    (0xc011, 1, 0),
+    (0x9010, 1, 0),
+    )
+
 __07_simple_ids = (
    (0x00010000,1,0),
    (0x00020000,1,0),
@@ -786,6 +792,8 @@ if __name__== '__main__':
     args = argp.parse_args()
     if args.id_table == 'demo':
         id_table = __07_demo_ids
+    elif args.id_table == '97demo':
+        id_table = __97_demo_ids
     elif args.id_table == 'keli':
         id_table = __07_keli_ids
     elif args.id_table == 'weisheng':
