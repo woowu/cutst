@@ -610,14 +610,14 @@ def read_from_table():
                 # a dirty method the show data in response
                 #
                 if len(resp['pdu']) > proto_algo['id_len']:
-                    data_str = []
+                    data_str = '' 
                     for c in resp['pdu'][proto_algo['id_len']:]:
                         if c >= proto_algo['bias']:
                             c -= proto_algo['bias']
                         else:
                             c = 256 + c - proto_algo['bias']
-                        data_str.append('%02x' % c)
-                    log('%s -> %s' % ('%08x' % entry[0], data_str)) 
+                        data_str += ('%02x' % c)
+                    log('%s* %s' % ('%08x' % entry[0], data_str)) 
                 time.sleep(idle_wait)
                 break
             else:
