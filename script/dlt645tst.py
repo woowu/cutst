@@ -406,7 +406,7 @@ proto_algo_07 = {
         'leading_char': 254,
         'opening_tag': 104,
         'closing_tag': 22,
-        'complement_char': 51,
+        'bias': 51,
         'ctrl_read_data': 17,
         'ctrl_read_next_data': 18,
         'fr_resp_mask': 0x80,
@@ -421,7 +421,7 @@ proto_algo_97 = {
         'leading_char': 254,
         'opening_tag': 104,
         'closing_tag': 22,
-        'complement_char': 51,
+        'bias': 51,
         'ctrl_read_data': 1,
         'ctrl_read_next_data': 18,          # FIXME
         'fr_resp_mask': 0x80,               # FIXME
@@ -490,7 +490,7 @@ def create_read_req(id, seqno):
         frame += bytearray([proto_algo['opening_tag']
             , proto_algo['ctrl_read_next_data'], proto_algo['id_len'] + 1])
     for i in range(proto_algo['id_len']):
-        frame.append((id + proto_algo['complement_char']) % 256)
+        frame.append((id + proto_algo['bias']) % 256)
         id /= 256
 
     # Keli did not complement the seqno with 51
@@ -543,7 +543,7 @@ def recv_frame():
     def data_on_char(state, c):
         state['frame'].append(c)
         state['_len'] -= 1
-        state['data'].append(c)
+        state['pdu'].append(c)
         if state['_len'] > 0:
             return data_on_char
         return chksum_on_char
@@ -559,7 +559,7 @@ def recv_frame():
         return None
 
     state = {'frame': bytearray()
-            , 'ctrl': 0, 'data': bytearray(), 'completed': False
+            , 'ctrl': 0, 'pdu': bytearray(), 'completed': False
             , 'bad_chksum': False}
 
     handler = opening_tag_on_char
@@ -607,6 +607,17 @@ def read_from_table():
                 continue
 
             if is_normal_resp(resp['ctrl']) or entry[2] == 0: 
+                # a dirty method the show data in response
+                #
+                if len(resp['pdu']) > proto_algo['id_len']:
+                    data_str = []
+                    for c in resp['pdu'][proto_algo['id_len']:]:
+                        if c >= proto_algo['bias']:
+                            c -= proto_algo['bias']
+                        else:
+                            c = 256 + c - proto_algo['bias']
+                        data_str.append('%02x' % c)
+                    log('%s -> %s' % ('%08x' % entry[0], data_str)) 
                 time.sleep(idle_wait)
                 break
             else:
@@ -633,17 +644,17 @@ def read_debug_counters():
     if not len(resp['frame']): return
     if not no_trace or not resp['completed']:
         print_packet(bytes(resp['frame']), ' ')
-    if len(resp['data']) != (20 + 1) * 4:
-        log('error: incorrect counters resp: len=%d' % len(resp['data']))
+    if len(resp['pdu']) != (20 + 1) * 4:
+        log('error: incorrect counters resp: len=%d' % len(resp['pdu']))
         return
-    data = resp['data'][4:] # strip the id
+    data = resp['pdu'][proto_algo['id_len']:] # strip the id
     decode_dl645_data(data)
     print_counters(data)
     last_read_counters_time = datetime.datetime.now()
 
 def decode_dl645_data(data):
     for i in range(len(data)):
-        m = data[i] - 0x33
+        m = data[i] - proto_algo['bias']
         if m < 0:
             m = 256 + m
         data[i] = m
