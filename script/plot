@@ -1,0 +1,21 @@
+#!/usr/bin/env gnuplot
+set terminal unknown 
+plot 'tmp.dat' using 0:2 title ''
+
+# span of data in x and y
+xspan = GPVAL_DATA_X_MAX - GPVAL_DATA_X_MIN
+yspan = GPVAL_DATA_Y_MAX - GPVAL_DATA_Y_MIN
+
+# dimensions
+#xdim = xspan * 20
+#ydim = yspan
+
+set yrange[GPVAL_DATA_Y_MIN:GPVAL_DATA_Y_MAX]
+set xrange[GPVAL_DATA_X_MIN:GPVAL_DATA_X_MAX]
+set ylabel "krn_tics"
+set xlabel "time"
+set terminal png size 1280,1024
+set output 'tmp.png'
+plot 'tmp.dat' using 0:2 title '' with linespoints
+#, '' every 100 using 0:2:1 with labels offset 0,char 1
+
