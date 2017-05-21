@@ -414,6 +414,10 @@ __97_sky_ids = (
    (0x9010,1,0),
    )
 
+__07_sky_single_id = (
+   (0x04010001,1,0),
+   )
+
 __07_long_ids = (
     (0x1A010001,1,0),
     (0x1A020001,1,0),
@@ -972,6 +976,8 @@ if __name__== '__main__':
         id_table = __07_simple_ids
     elif args.id_table == 'sky':
         id_table = __07_sky_ids
+    elif args.id_table == 'skys':
+        id_table = __07_sky_single_id
     elif args.id_table == 'long':
         id_table = __07_long_ids
     elif args.id_table == 'all':

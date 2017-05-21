@@ -14,7 +14,7 @@ rundlms() {
 
 rundl645() {
     dlt645tst.py -n0 -tsky -d4 -s --read-counters $1 0 \
-        | nc 10.86.201.53 $2
+        | socat - TCP4:10.86.201.53:$2
 }
 
 rundlms /dev/tts12 7421 2220 &
